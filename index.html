@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Spellbook for AI</title>
 <style>
 *{box-sizing:border-box;scroll-behavior:smooth}
@@ -10,9 +10,8 @@ body{
   margin:0;
   font-family:"Segoe UI",system-ui,sans-serif;
   color:#fff;
-  background:url("images/background.png")center/cover fixed no-repeat;
+  background:url("images/background.png") center/cover fixed no-repeat;
   background-color:#02020a;
-  min-height:100vh;
 }
 body::before{
   content:"";
@@ -27,18 +26,19 @@ body::before{
 .title h1{
   font-size:3.5em;color:#00e0ff;
   text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff,0 0 60px #7df9ff,0 0 80px #7df9ff;
-  animation:pulse 3s infinite alternate ease-in-out;letter-spacing:2px
+  animation:pulse 3s infinite alternate ease-in-out;
+  letter-spacing:2px;
 }
 @keyframes pulse{from{text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff}to{text-shadow:0 0 25px #7df9ff,0 0 80px #00e0ff,0 0 120px #7df9ff}}
 .spark{position:absolute;width:6px;height:6px;background:radial-gradient(circle,#fff 0%,#00e0ff 60%,transparent 100%);border-radius:50%;opacity:.8;animation:sparkle 5s linear infinite}
-@keyframes sparkle{from{transform:translateY(0)scale(1);opacity:.9}to{transform:translateY(-300px)scale(0);opacity:0}}
+@keyframes sparkle{from{transform:translateY(0) scale(1);opacity:.9}to{transform:translateY(-300px) scale(0);opacity:0}}
 
 /* Навигация */
 nav{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);padding:15px 0;display:flex;justify-content:center;flex-wrap:wrap;gap:25px}
 nav a,.random-nav-btn{color:#7df9ff;text-decoration:none;font-weight:600;transition:color .3s,text-shadow .3s;cursor:pointer}
 nav a:hover,.random-nav-btn:hover{color:#fff;text-shadow:0 0 10px #00e0ff}
 
-/* Контейнер */
+/* Блоки */
 .container{max-width:900px;margin:0 auto;padding:40px 20px 80px}
 .block{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:25px;box-shadow:0 0 25px rgba(0,255,255,.15);margin-bottom:60px;backdrop-filter:blur(6px)}
 .block h2{text-align:center;font-size:1.6em;margin-bottom:20px;color:#7df9ff;text-shadow:0 0 10px #00e0ff}
@@ -73,14 +73,14 @@ button.action:hover{background:#7df9ff;box-shadow:0 0 20px #00e0ff,0 0 40px #00e
 }
 .door-container:hover .door-glow{opacity:1}
 
+footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);font-size:.9em}
+
 /* Модал */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;z-index:100}
 .modal-content{background:rgba(0,0,0,0.7);border:1px solid rgba(0,255,255,0.4);border-radius:15px;padding:20px;max-width:600px;text-align:center;box-shadow:0 0 25px #00e0ff}
 .modal-content img{width:100%;border-radius:10px;margin-bottom:15px}
 .close-btn{background:#00e0ff;color:#000;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;transition:all .2s}
 .close-btn:hover{background:#7df9ff;box-shadow:0 0 15px #00e0ff}
-
-footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);font-size:.9em}
 </style>
 </head>
 <body>
@@ -105,10 +105,10 @@ footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);fo
 
 <main class="container" id="gallery-container"></main>
 
-<div class="door-container" onclick="openDoor()">
+<div class="door-container">
   <div class="door-glow"></div>
-  <img id="magic-door" src="images/door.png" alt="Magic Door">
-  <div style="margin-top:20px"><button class="action" onclick="showRandom()">Random Prompt</button></div>
+  <img id="magic-door" src="images/door.png" alt="Magic Door" onclick="openDoor()">
+  <div style="margin-top:20px;"><button class="action" onclick="showRandom()">Random Prompt</button></div>
 </div>
 
 <footer>
@@ -126,29 +126,29 @@ footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);fo
 
 <script>
 const data={
-  magic:{title:"Magic",images:["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],prompts:["A charming young elf wizard...","Two playful fairy friends...","A cozy treehouse...","A wise elf elder...","A glowing crystal waterfall..."]},
-  neon:{title:"Futuristic Digital Energy",images:["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],prompts:["A futuristic AI energy core...","Abstract neon portrait...","Exploding digital universe...","Futuristic holographic interface...","An AI brain made of light..."]},
-  gothic:{title:"Gothic",images:["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],prompts:["A rain-soaked street...","A lone figure in crimson cloak...","A towering gothic cathedral...","An abandoned gothic hall...","A gothic bridge at night..."]},
-  dragons:{title:"Dragons • Fantasy",images:["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],prompts:["A majestic dragon perched...","A baby dragon curled...","Dragon and child...","Wyverns racing through clouds...","A dragon egg hatching..."]},
-  city:{title:"City • Cyberpunk",images:["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],prompts:["Neon-drenched megacity...","Rooftop chase between androids...","Street market with AR stalls...","Cyborg portrait...","Monorail through skyscrapers..."]}
+ magic:{title:"Magic",images:["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
+ neon:{title:"Futuristic Digital Energy",images:["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
+ gothic:{title:"Gothic",images:["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
+ dragons:{title:"Dragons • Fantasy",images:["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
+ city:{title:"City • Cyberpunk",images:["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]}
 };
 
 const main=document.getElementById("gallery-container");
 Object.entries(data).forEach(([id,section])=>{
-  const html=`<section class="block" id="${id}">
-  <h2>${section.title}</h2>
-  <div class="slider" data-block="${id}">
-    <div class="slides">${section.images.map(src=>`<img src="images/${src}" alt="">`).join("")}</div>
-    <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
-    <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
-  </div>
-  <div class="controls">
-    <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
-    <button class="action" onclick="copyPrompt(this)">Скопировать</button>
-  </div>
-  <div class="prompt-text">${section.prompts[0]}</div>
-</section>`;
-  main.insertAdjacentHTML("beforeend",html);
+ const html=`<section class="block" id="${id}">
+   <h2>${section.title}</h2>
+   <div class="slider" data-block="${id}">
+     <div class="slides">${section.images.map(src=>`<img src="images/${src}" alt="">`).join("")}</div>
+     <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
+     <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
+   </div>
+   <div class="controls">
+     <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
+     <button class="action" onclick="copyPrompt(this)">Скопировать</button>
+   </div>
+   <div class="prompt-text">${section.prompts[0]}</div>
+ </section>`;
+ main.insertAdjacentHTML("beforeend",html);
 });
 
 function nextSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block,x=s.querySelector(".slides"),i=x.querySelectorAll("img"),t=s.closest(".block").querySelector(".prompt-text");let n=parseInt(s.dataset.index||0);n=(n+1)%i.length;x.style.transform=`translateX(-${n*100}%)`;s.dataset.index=n;t.textContent=data[b].prompts[n];}
@@ -157,23 +157,22 @@ function togglePrompt(btn){const b=btn.closest(".block").querySelector(".prompt-
 function copyPrompt(btn){const t=btn.closest(".block").querySelector(".prompt-text").textContent;navigator.clipboard.writeText(t.trim());btn.textContent="Скопировано!";setTimeout(()=>btn.textContent="Скопировать",1500);}
 
 function showRandom(){
-  const categories=Object.values(data);
-  const randomCategory=categories[Math.floor(Math.random()*categories.length)];
-  const idx=Math.floor(Math.random()*randomCategory.images.length);
-  const img=randomCategory.images[idx];
-  const txt=randomCategory.prompts[idx];
-  const modal=document.getElementById("modal");
-  modal.style.display="flex";
-  modal.querySelector("img").src="images/"+img;
-  modal.querySelector("#modal-text").textContent=txt;
+ const categories=Object.values(data);
+ const randomCategory=categories[Math.floor(Math.random()*categories.length)];
+ const idx=Math.floor(Math.random()*randomCategory.images.length);
+ const img=randomCategory.images[idx];
+ const txt=randomCategory.prompts[idx];
+ const modal=document.getElementById("modal");
+ modal.style.display="flex";
+ modal.querySelector("img").src="images/"+img;
+ modal.querySelector("#modal-text").textContent=txt;
 }
 function closeModal(){document.getElementById("modal").style.display="none";}
 
-/* Анимация двери */
 function openDoor(){
-  const door=document.getElementById("magic-door");
-  door.style.transform="rotateY(-90deg)";
-  setTimeout(()=>{showRandom();door.style.transform="";},600);
+ const door=document.getElementById("magic-door");
+ door.style.transform="rotateY(-90deg)";
+ setTimeout(()=>{showRandom();door.style.transform="rotateY(0deg)";},600);
 }
 </script>
 </body>
