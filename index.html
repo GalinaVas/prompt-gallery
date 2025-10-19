@@ -1,179 +1,330 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Spellbook for AI</title>
-<style>
-*{box-sizing:border-box;scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:"Segoe UI",system-ui,sans-serif;
-  color:#fff;
-  background:url("images/background.png") center/cover fixed no-repeat;
-  background-color:#02020a;
-}
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  pointer-events:none;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spellbook for AI</title>
+  <style>
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: #fff;
+      background: url("images/background.png") center/cover fixed no-repeat;
+      background-color: #02020a;
+      min-height: 100vh;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      pointer-events: none;
+    }
 
-/* Заголовок */
-.title{text-align:center;padding:80px 20px 40px;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);position:relative;overflow:hidden}
-.title h1{
-  font-size:3.5em;color:#00e0ff;
-  text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff,0 0 60px #7df9ff,0 0 80px #7df9ff;
-  animation:pulse 3s infinite alternate ease-in-out;
-  letter-spacing:2px;
-}
-@keyframes pulse{from{text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff}to{text-shadow:0 0 25px #7df9ff,0 0 80px #00e0ff,0 0 120px #7df9ff}}
-.spark{position:absolute;width:6px;height:6px;background:radial-gradient(circle,#fff 0%,#00e0ff 60%,transparent 100%);border-radius:50%;opacity:.8;animation:sparkle 5s linear infinite}
-@keyframes sparkle{from{transform:translateY(0) scale(1);opacity:.9}to{transform:translateY(-300px) scale(0);opacity:0}}
+    /* Заголовок */
+    .title {
+      text-align: center;
+      padding: 80px 20px 40px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      position: relative;
+      overflow: hidden;
+    }
+    .title h1 {
+      font-size: 3.5em;
+      color: #00e0ff;
+      text-shadow:
+        0 0 15px #00e0ff,
+        0 0 30px #00e0ff,
+        0 0 60px #7df9ff,
+        0 0 80px #7df9ff;
+      animation: pulse 3s infinite alternate ease-in-out;
+      letter-spacing: 2px;
+    }
+    @keyframes pulse {
+      from { text-shadow: 0 0 15px #00e0ff, 0 0 30px #00e0ff; }
+      to { text-shadow: 0 0 25px #7df9ff, 0 0 80px #00e0ff, 0 0 120px #7df9ff; }
+    }
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, #fff 0%, #00e0ff 60%, transparent 100%);
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: sparkle 5s linear infinite;
+    }
+    @keyframes sparkle {
+      from { transform: translateY(0) scale(1); opacity: 0.9; }
+      to { transform: translateY(-300px) scale(0); opacity: 0; }
+    }
 
-/* Навигация */
-nav{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);padding:15px 0;display:flex;justify-content:center;flex-wrap:wrap;gap:25px}
-nav a,.random-nav-btn{color:#7df9ff;text-decoration:none;font-weight:600;transition:color .3s,text-shadow .3s;cursor:pointer}
-nav a:hover,.random-nav-btn:hover{color:#fff;text-shadow:0 0 10px #00e0ff}
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      padding: 15px 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+    }
+    nav a {
+      color: #7df9ff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #00e0ff;
+    }
 
-/* Блоки */
-.container{max-width:900px;margin:0 auto;padding:40px 20px 80px}
-.block{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:25px;box-shadow:0 0 25px rgba(0,255,255,.15);margin-bottom:60px;backdrop-filter:blur(6px)}
-.block h2{text-align:center;font-size:1.6em;margin-bottom:20px;color:#7df9ff;text-shadow:0 0 10px #00e0ff}
-.slider{position:relative;overflow:hidden;border-radius:12px}
-.slides{display:flex;transition:transform .5s ease}
-.slides img{width:100%;border-radius:12px;flex-shrink:0}
-.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.55);border:none;color:#7df9ff;font-size:1.5em;cursor:pointer;padding:8px 14px;border-radius:8px;box-shadow:0 0 10px #00e0ff;transition:all .2s}
-.nav-btn:hover{background:#00e0ff;color:#000;box-shadow:0 0 20px #00e0ff}
-.nav-prev{left:10px}.nav-next{right:10px}
-.controls{display:flex;justify-content:center;gap:15px;margin-top:15px}
-button.action{cursor:pointer;border:none;background:#00e0ff;color:#000;font-weight:700;padding:8px 18px;border-radius:8px;transition:all .25s;text-transform:uppercase;letter-spacing:.02em;font-size:.85em;box-shadow:0 0 10px #00e0ff}
-button.action:hover{background:#7df9ff;box-shadow:0 0 20px #00e0ff,0 0 40px #00e0ff}
-.prompt-text{display:none;margin-top:15px;font-size:.9em;background:rgba(255,255,255,.08);border-radius:8px;padding:12px;white-space:pre-wrap}
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    .block {
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+      margin-bottom: 60px;
+      backdrop-filter: blur(6px);
+    }
+    .block h2 {
+      text-align: center;
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      color: #7df9ff;
+      text-shadow: 0 0 10px #00e0ff;
+    }
+    .slider {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .slides img {
+      width: 100%;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.55);
+      border: none;
+      color: #7df9ff;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 8px 14px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00e0ff;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: #00e0ff;
+      color: #000;
+      box-shadow: 0 0 20px #00e0ff;
+    }
+    .nav-prev { left: 10px; }
+    .nav-next { right: 10px; }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    button.action {
+      cursor: pointer;
+      border: none;
+      background: #00e0ff;
+      color: #000;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 8px;
+      transition: all 0.25s;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-size: 0.85em;
+      box-shadow: 0 0 10px #00e0ff;
+    }
+    button.action:hover {
+      background: #7df9ff;
+      box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
+    }
+    .prompt-text {
+      display: none;
+      margin-top: 15px;
+      font-size: 0.9em;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre-wrap;
+    }
 
-/* Волшебная дверь */
-.door-container{text-align:center;margin-top:80px;position:relative}
-.door-container img{
-  width:200px;border-radius:10px;cursor:pointer;
-  box-shadow:0 0 25px rgba(0,255,255,0.4);
-  transition:transform .6s ease, box-shadow .6s ease;
-  transform-origin:left center;
-}
-.door-container img:hover{
-  transform:rotateY(-15deg);
-  box-shadow:0 0 50px rgba(0,255,255,0.8);
-}
-.door-glow{
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:220px;height:340px;
-  background:radial-gradient(circle at center,rgba(0,255,255,0.4),transparent 70%);
-  filter:blur(40px);z-index:-1;opacity:0;transition:opacity .6s;
-}
-.door-container:hover .door-glow{opacity:1}
-
-footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);font-size:.9em}
-
-/* Модал */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;z-index:100}
-.modal-content{background:rgba(0,0,0,0.7);border:1px solid rgba(0,255,255,0.4);border-radius:15px;padding:20px;max-width:600px;text-align:center;box-shadow:0 0 25px #00e0ff}
-.modal-content img{width:100%;border-radius:10px;margin-bottom:15px}
-.close-btn{background:#00e0ff;color:#000;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;transition:all .2s}
-.close-btn:hover{background:#7df9ff;box-shadow:0 0 15px #00e0ff}
-</style>
+    footer {
+      text-align: center;
+      color: #aaa;
+      padding: 40px 0;
+      background: rgba(0, 0, 0, 0.6);
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
 
-<div class="title">
-  <h1>Spellbook for AI ✨</h1>
-  <div class="spark" style="left:10%;animation-delay:0s"></div>
-  <div class="spark" style="left:25%;animation-delay:1s"></div>
-  <div class="spark" style="left:50%;animation-delay:2s"></div>
-  <div class="spark" style="left:75%;animation-delay:3s"></div>
-  <div class="spark" style="left:90%;animation-delay:4s"></div>
-</div>
-
-<nav>
-  <a href="#magic">Magic</a>
-  <a href="#neon">Futuristic Digital Energy</a>
-  <a href="#gothic">Gothic</a>
-  <a href="#dragons">Dragons • Fantasy</a>
-  <a href="#city">City • Cyberpunk</a>
-  <span class="random-nav-btn" onclick="showRandom()">✨ Random Prompt</span>
-</nav>
-
-<main class="container" id="gallery-container"></main>
-
-<div class="door-container">
-  <div class="door-glow"></div>
-  <img id="magic-door" src="images/door.png" alt="Magic Door" onclick="openDoor()">
-  <div style="margin-top:20px;"><button class="action" onclick="showRandom()">Random Prompt</button></div>
-</div>
-
-<footer>
-  <hr style="border-color:rgba(255,255,255,0.1);width:80%;margin-bottom:20px">
-  <p>Prompt Gallery © 2025 Galina Vas</p>
-</footer>
-
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <img src="" alt="">
-    <p id="modal-text"></p>
-    <button class="close-btn" onclick="closeModal()">Закрыть</button>
+  <div class="title">
+    <h1>Spellbook for AI ✨</h1>
+    <div class="spark" style="left:10%; animation-delay:0s;"></div>
+    <div class="spark" style="left:25%; animation-delay:1s;"></div>
+    <div class="spark" style="left:50%; animation-delay:2s;"></div>
+    <div class="spark" style="left:75%; animation-delay:3s;"></div>
+    <div class="spark" style="left:90%; animation-delay:4s;"></div>
   </div>
-</div>
 
-<script>
-const data={
- magic:{title:"Magic",images:["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
- neon:{title:"Futuristic Digital Energy",images:["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
- gothic:{title:"Gothic",images:["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
- dragons:{title:"Dragons • Fantasy",images:["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]},
- city:{title:"City • Cyberpunk",images:["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],prompts:["Prompt1","Prompt2","Prompt3","Prompt4","Prompt5"]}
-};
+  <nav>
+    <a href="#magic">Magic</a>
+    <a href="#neon">Futuristic Digital Energy</a>
+    <a href="#gothic">Gothic</a>
+    <a href="#dragons">Dragons • Fantasy</a>
+    <a href="#city">City • Cyberpunk</a>
+  </nav>
 
-const main=document.getElementById("gallery-container");
-Object.entries(data).forEach(([id,section])=>{
- const html=`<section class="block" id="${id}">
-   <h2>${section.title}</h2>
-   <div class="slider" data-block="${id}">
-     <div class="slides">${section.images.map(src=>`<img src="images/${src}" alt="">`).join("")}</div>
-     <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
-     <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
-   </div>
-   <div class="controls">
-     <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
-     <button class="action" onclick="copyPrompt(this)">Скопировать</button>
-   </div>
-   <div class="prompt-text">${section.prompts[0]}</div>
- </section>`;
- main.insertAdjacentHTML("beforeend",html);
-});
+  <main class="container" id="gallery-container"></main>
 
-function nextSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block,x=s.querySelector(".slides"),i=x.querySelectorAll("img"),t=s.closest(".block").querySelector(".prompt-text");let n=parseInt(s.dataset.index||0);n=(n+1)%i.length;x.style.transform=`translateX(-${n*100}%)`;s.dataset.index=n;t.textContent=data[b].prompts[n];}
-function prevSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block,x=s.querySelector(".slides"),i=x.querySelectorAll("img"),t=s.closest(".block").querySelector(".prompt-text");let n=parseInt(s.dataset.index||0);n=(n-1+i.length)%i.length;x.style.transform=`translateX(-${n*100}%)`;s.dataset.index=n;t.textContent=data[b].prompts[n];}
-function togglePrompt(btn){const b=btn.closest(".block").querySelector(".prompt-text"),v=b.style.display==="block";b.style.display=v?"none":"block";btn.textContent=v?"Показать промпт":"Скрыть промпт";}
-function copyPrompt(btn){const t=btn.closest(".block").querySelector(".prompt-text").textContent;navigator.clipboard.writeText(t.trim());btn.textContent="Скопировано!";setTimeout(()=>btn.textContent="Скопировать",1500);}
+  <footer>
+    <hr style="border-color: rgba(255,255,255,0.1); width: 80%; margin-bottom: 20px;">
+    <p>Prompt Gallery © 2025 Galina Vas</p>
+  </footer>
 
-function showRandom(){
- const categories=Object.values(data);
- const randomCategory=categories[Math.floor(Math.random()*categories.length)];
- const idx=Math.floor(Math.random()*randomCategory.images.length);
- const img=randomCategory.images[idx];
- const txt=randomCategory.prompts[idx];
- const modal=document.getElementById("modal");
- modal.style.display="flex";
- modal.querySelector("img").src="images/"+img;
- modal.querySelector("#modal-text").textContent=txt;
-}
-function closeModal(){document.getElementById("modal").style.display="none";}
+  <script>
+    const data = {
+      magic: {
+        title: "Magic",
+        images: ["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],
+        prompts: [
+`A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5`,
+`Two playful fairy friends dancing on glowing mushrooms, high-detail 3D animation, gentle bokeh background, storybook composition, heartwarming mood —ar 4:5 —v 5`,
+`A cozy treehouse village with lanterns and floating boats, magical 3D scene, painterly textures —ar 16:9 —v 5`,
+`A wise elf elder teaching children spells under ancient oaks, cinematic 3D animation, warm rim lighting, storybook framing —ar 3:4 —v 5`,
+`A glowing crystal waterfall where tiny sprites play, fantasy 3D illustration, soft shadows, high material detail, magical atmosphere, warm golden and turquoise lighting, soft sunset glow, Pixar-style color palette —ar 5:4 —v 5`
+        ]
+      },
+      neon: {
+        title: "Futuristic Digital Energy",
+        images: ["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],
+        prompts: [
+`A futuristic AI energy core floating in a dark void, surrounded by glowing neon rings, electric sparks and holographic data streams, ultra-realistic 3D render, vibrant magenta and cyan lighting, cinematic composition, volumetric light beams —ar 16:9 —v 5`,
+`Abstract neon portrait of artificial intelligence — half human, half machine face built from glass circuits and light, surreal futuristic art, ultra-detail, glowing reflections, studio lighting —ar 4:5 —v 5`,
+`Exploding digital universe made of data particles, glowing shards and geometric shapes, bright energy burst, synthwave neon colors, dynamic motion —ar 21:9 —v 5`,
+`Futuristic holographic interface floating in space, glowing icons and control panels, deep purple and cyan palette, 3D render, cinematic perspective —ar 16:9 —v 5`,
+`An AI brain made of fractal light, surrounded by pulsating neon waves, abstract cosmic energy field, ultra-detailed, high contrast digital artwork, vibrant glow —ar 3:2 —v 5`
+        ]
+      },
+      gothic: {
+        title: "Gothic",
+        images: ["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],
+        prompts: [
+`A rain-soaked cobblestone street under gaslight, towering gothic cathedral, ultra-realistic photo, deep shadows, dramatic volumetric fog —ar 3:2 —v 5`,
+`A lone figure in crimson cloak on a ruined balcony, cinematic HDR photo style, high detail, moody sky —ar 2:3 —v 5`,
+`A towering gothic cathedral at dusk, dramatic clouds and fog swirling around the spires, cinematic photography, ultra-realistic lighting, wet cobblestone reflections, high contrast chiaroscuro mood —ar 4:5 —v 5`,
+`An abandoned gothic hall illuminated by moonlight through stained glass windows, drifting mist across the floor, cinematic ultra-realistic photograph, deep contrast, cold blue tones with subtle candlelight glow, rich architectural detail —ar 16:9 —v 5`,
+`A gothic bridge at night shrouded in fog, lanterns casting golden reflections on wet stone, dramatic cinematic lighting, ultra-realistic photography, moody atmosphere, intricate architecture, faint silhouettes in the distance —ar 3:2 —v 5`
+        ]
+      },
+      dragons: {
+        title: "Dragons • Fantasy",
+        images: ["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],
+        prompts: [
+`A majestic dragon perched on a cliff overlooking a fantasy valley, painterly high-detail illustration, dramatic light, scale texture —ar 16:9 —v 5`,
+`A baby dragon curled around a glowing crystal in a dark cave, bioluminescent reflections on scales, cinematic fantasy lighting, ultra-detailed textures, misty background, painterly high-realism illustration —ar 4:5 —v 5`,
+`Dragon and child sharing a quiet moment by a campfire, evocative fantasy scene, cinematic color grading —ar 3:2 —v 5`,
+`A pack of wyvern-like creatures racing through storm clouds, dynamic composition, high-detail fantasy art —ar 21:9 —v 5`,
+`A dragon egg hatching in an ancient nest among glowing runes, mystical atmosphere, highly detailed —ar 1:1 —v 5`
+        ]
+      },
+      city: {
+        title: "City • Cyberpunk",
+        images: ["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],
+        prompts: [
+`Neon-drenched megacity at night, rain-slick streets, towering holograms, cinematic wide shot, gritty realism —ar 21:9 —v 5`,
+`Rooftop chase between androids with neon signage, dynamic motion, cinematic lighting —ar 16:9 —v 5`,
+`A bustling street market with augmented-reality stalls and colorful signage, cinematic photo-real render, rich detail —ar 4:5 —v 5`,
+`Close-up portrait of a cyborg with neon facial tattoos, hyper-detailed, cinematic studio lighting —ar 2:3 —v 5`,
+`A monorail gliding through layers of neon skyscrapers, aerial cinematic shot, high detail —ar 3:2 —v 5`
+        ]
+      }
+    };
 
-function openDoor(){
- const door=document.getElementById("magic-door");
- door.style.transform="rotateY(-90deg)";
- setTimeout(()=>{showRandom();door.style.transform="rotateY(0deg)";},600);
-}
-</script>
+    const main = document.getElementById("gallery-container");
+
+    Object.entries(data).forEach(([id, section]) => {
+      const html = `
+        <section class="block" id="${id}">
+          <h2>${section.title}</h2>
+          <div class="slider" data-block="${id}">
+            <div class="slides">
+              ${section.images.map(src => `<img src="images/${src}" alt="">`).join("")}
+            </div>
+            <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
+            <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
+          </div>
+          <div class="controls">
+            <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
+            <button class="action" onclick="copyPrompt(this)">Скопировать</button>
+          </div>
+          <div class="prompt-text">${section.prompts[0]}</div>
+        </section>`;
+      main.insertAdjacentHTML("beforeend", html);
+    });
+
+    function nextSlide(btn){
+      const slider = btn.closest(".slider");
+      const block = slider.dataset.block;
+      const slides = slider.querySelector(".slides");
+      const imgs = slides.querySelectorAll("img");
+      const promptBox = slider.closest(".block").querySelector(".prompt-text");
+      let index = parseInt(slider.dataset.index || 0);
+      index = (index + 1) % imgs.length;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      slider.dataset.index = index;
+      promptBox.textContent = data[block].prompts[index];
+    }
+    function prevSlide(btn){
+      const slider = btn.closest(".slider");
+      const block = slider.dataset.block;
+      const slides = slider.querySelector(".slides");
+      const imgs = slides.querySelectorAll("img");
+      const promptBox = slider.closest(".block").querySelector(".prompt-text");
+      let index = parseInt(slider.dataset.index || 0);
+      index = (index - 1 + imgs.length) % imgs.length;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      slider.dataset.index = index;
+      promptBox.textContent = data[block].prompts[index];
+    }
+    function togglePrompt(btn){
+      const box = btn.closest(".block").querySelector(".prompt-text");
+      const visible = box.style.display === "block";
+      box.style.display = visible ? "none" : "block";
+      btn.textContent = visible ? "Показать промпт" : "Скрыть промпт";
+    }
+    function copyPrompt(btn){
+      const text = btn.closest(".block").querySelector(".prompt-text").textContent;
+      navigator.clipboard.writeText(text.trim());
+      btn.textContent = "Скопировано!";
+      setTimeout(()=>btn.textContent="Скопировать",1500);
+    }
+  </script>
 </body>
 </html>
