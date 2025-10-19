@@ -1,137 +1,227 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prompt Gallery</title>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: system-ui, sans-serif;
+      font-family: "Segoe UI", sans-serif;
       color: #fff;
-      background: url('images/background.jpg') center/cover fixed no-repeat;
-      backdrop-filter: blur(2px);
+      background: url("images/background.png") center/cover fixed no-repeat;
+      background-color: #050510;
     }
     header {
       text-align: center;
-      background: rgba(0, 0, 0, 0.6);
       padding: 60px 20px 40px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
     }
     header h1 {
       font-size: 2.5em;
       margin-bottom: 0.3em;
+      color: #7df9ff;
+      text-shadow: 0 0 15px #00e0ff;
     }
     header p {
-      color: #ddd;
+      color: #cfe8ff;
     }
     .container {
       display: grid;
-      gap: 40px;
+      gap: 50px;
       max-width: 1200px;
       margin: 0 auto;
       padding: 40px 20px 80px;
     }
     .block {
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      padding: 25px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
     }
     .block h2 {
       text-align: center;
-      font-size: 1.5em;
-      margin-bottom: 20px;
-      color: #ffd36a;
+      font-size: 1.6em;
+      margin-bottom: 25px;
+      color: #7df9ff;
+      text-shadow: 0 0 10px #00e0ff;
     }
     .grid {
       display: grid;
-      gap: 15px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
-    .grid img {
-      width: 100%;
+    figure {
+      margin: 0;
+      background: rgba(255, 255, 255, 0.05);
       border-radius: 12px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
     }
-    .grid img:hover {
+    img {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s;
+    }
+    img:hover {
       transform: scale(1.03);
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    }
+    figcaption {
+      padding: 12px 15px;
+      background: rgba(0, 0, 0, 0.7);
+      font-size: 0.9em;
+      line-height: 1.4em;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      background: #00e0ff;
+      color: #000;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      transition: all 0.25s;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-size: 0.8em;
+      box-shadow: 0 0 10px #00e0ff;
+    }
+    button:hover {
+      background: #7df9ff;
+      box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
+    }
+    .prompt-text {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.85em;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 10px;
+      white-space: pre-wrap;
     }
     footer {
       text-align: center;
       color: #aaa;
       padding: 40px 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>🪄 Prompt Gallery</h1>
-    <p>5 тематических блоков по 5 изображений</p>
+    <p>Magic • Neon • Gothic • Dragons • Cyberpunk</p>
   </header>
 
   <main class="container">
+
+    <!-- Block 1 -->
     <section class="block">
-      <h2>Block 1 — Magic • Elves • Enchanted World (Pixar / Disney style)</h2>
+      <h2>Magic • Elves • Enchanted World (Pixar / Disney style)</h2>
       <div class="grid">
-        <img src="images/magic-01.png" alt="">
-        <img src="images/magic-02.png" alt="">
-        <img src="images/magic-03.png" alt="">
-        <img src="images/magic-04.png" alt="">
-        <img src="images/magic-05.png" alt="">
+        <!-- one image pattern -->
+        <figure>
+          <img src="images/magic-01.png" alt="magic-01">
+          <figcaption>
+            <div class="buttons">
+              <span>magic-01.png</span>
+              <div>
+                <button onclick="togglePrompt(this)">Показать промпт</button>
+                <button onclick="copyPrompt(this)">Скопировать</button>
+              </div>
+            </div>
+            <div class="prompt-text">
+A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5
+            </div>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/magic-02.png" alt="">
+          <figcaption>
+            <div class="buttons">
+              <span>magic-02.png</span>
+              <div>
+                <button onclick="togglePrompt(this)">Показать промпт</button>
+                <button onclick="copyPrompt(this)">Скопировать</button>
+              </div>
+            </div>
+            <div class="prompt-text">Two playful fairy friends dancing on glowing mushrooms, high-detail 3D animation, gentle bokeh background, storybook composition, heartwarming mood —ar 4:5 —v 5</div>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/magic-03.png" alt="">
+          <figcaption>
+            <div class="buttons">
+              <span>magic-03.png</span>
+              <div>
+                <button onclick="togglePrompt(this)">Показать промпт</button>
+                <button onclick="copyPrompt(this)">Скопировать</button>
+              </div>
+            </div>
+            <div class="prompt-text">A cozy treehouse village with lanterns and floating boats, magical 3D scene, painterly textures —ar 16:9 —v 5</div>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/magic-04.png" alt="">
+          <figcaption>
+            <div class="buttons">
+              <span>magic-04.png</span>
+              <div>
+                <button onclick="togglePrompt(this)">Показать промпт</button>
+                <button onclick="copyPrompt(this)">Скопировать</button>
+              </div>
+            </div>
+            <div class="prompt-text">A wise elf elder teaching children spells under ancient oaks, cinematic 3D animation, warm rim lighting, storybook framing —ar 3:4 —v 5</div>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/magic-05.png" alt="">
+          <figcaption>
+            <div class="buttons">
+              <span>magic-05.png</span>
+              <div>
+                <button onclick="togglePrompt(this)">Показать промпт</button>
+                <button onclick="copyPrompt(this)">Скопировать</button>
+              </div>
+            </div>
+            <div class="prompt-text">A glowing crystal waterfall where tiny sprites play, fantasy 3D illustration, soft shadows, high material detail, magical atmosphere, warm golden and turquoise lighting, soft sunset glow, Pixar-style color palette —ar 5:4 —v 5</div>
+          </figcaption>
+        </figure>
       </div>
     </section>
 
-    <section class="block">
-      <h2>Block 2 — Futuristic Digital Energy • Neon Power & Abstract AI Concepts</h2>
-      <div class="grid">
-        <img src="images/neon-01.png" alt="">
-        <img src="images/neon-02.png" alt="">
-        <img src="images/neon-03.png" alt="">
-        <img src="images/neon-04.png" alt="">
-        <img src="images/neon-05.png" alt="">
-      </div>
-    </section>
+    <!-- остальные блоки в том же формате: Neon, Gothic, Dragons, City -->
+    <!-- (я добавлю их полностью в следующем шаге, чтобы код не обрезался) -->
 
-    <section class="block">
-      <h2>Block 3 — Dark • Gothic • Realistic</h2>
-      <div class="grid">
-        <img src="images/gothic-01.png" alt="">
-        <img src="images/gothic-02.png" alt="">
-        <img src="images/gothic-03.png" alt="">
-        <img src="images/gothic-04.png" alt="">
-        <img src="images/gothic-05.png" alt="">
-      </div>
-    </section>
-
-    <section class="block">
-      <h2>Block 4 — Dragons • Animals • Fantasy</h2>
-      <div class="grid">
-        <img src="images/dragons-01.png" alt="">
-        <img src="images/dragons-02.png" alt="">
-        <img src="images/dragons-03.png" alt="">
-        <img src="images/dragons-04.png" alt="">
-        <img src="images/dragons-05.png" alt="">
-      </div>
-    </section>
-
-    <section class="block">
-      <h2>Block 5 — City • Cyberpunk</h2>
-      <div class="grid">
-        <img src="images/сity-01.png" alt="">
-        <img src="images/сity-02.png" alt="">
-        <img src="images/сity-03.png" alt="">
-        <img src="images/сity-04.png" alt="">
-        <img src="images/сity-05.png" alt="">
-      </div>
-    </section>
   </main>
 
   <footer>
     © 2025 Galina Vas | Prompt Gallery
   </footer>
+
+  <script>
+    function togglePrompt(btn) {
+      const box = btn.closest("figcaption").querySelector(".prompt-text");
+      const visible = box.style.display === "block";
+      box.style.display = visible ? "none" : "block";
+      btn.textContent = visible ? "Показать промпт" : "Скрыть промпт";
+    }
+    function copyPrompt(btn) {
+      const text = btn.closest("figcaption").querySelector(".prompt-text").textContent;
+      navigator.clipboard.writeText(text.trim());
+      btn.textContent = "Скопировано!";
+      setTimeout(() => (btn.textContent = "Скопировать"), 1500);
+    }
+  </script>
 </body>
 </html>
