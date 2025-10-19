@@ -1,367 +1,180 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spellbook for AI</title>
-  <style>
-    * { box-sizing: border-box; scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", system-ui, sans-serif;
-      color: #fff;
-      background: url("images/background.png") center/cover fixed no-repeat;
-      background-color: #02020a;
-      min-height: 100vh;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-      pointer-events: none;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Spellbook for AI</title>
+<style>
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Segoe UI",system-ui,sans-serif;
+  color:#fff;
+  background:url("images/background.png")center/cover fixed no-repeat;
+  background-color:#02020a;
+  min-height:100vh;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  pointer-events:none;
+}
 
-    /* Заголовок */
-    .title {
-      text-align: center;
-      padding: 80px 20px 40px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(6px);
-      position: relative;
-      overflow: hidden;
-    }
-    .title h1 {
-      font-size: 3.5em;
-      color: #00e0ff;
-      text-shadow:
-        0 0 15px #00e0ff,
-        0 0 30px #00e0ff,
-        0 0 60px #7df9ff,
-        0 0 80px #7df9ff;
-      animation: pulse 3s infinite alternate ease-in-out;
-      letter-spacing: 2px;
-    }
-    @keyframes pulse {
-      from { text-shadow: 0 0 15px #00e0ff, 0 0 30px #00e0ff; }
-      to { text-shadow: 0 0 25px #7df9ff, 0 0 80px #00e0ff, 0 0 120px #7df9ff; }
-    }
-    .spark {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: radial-gradient(circle, #fff 0%, #00e0ff 60%, transparent 100%);
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: sparkle 5s linear infinite;
-    }
-    @keyframes sparkle {
-      from { transform: translateY(0) scale(1); opacity: 0.9; }
-      to { transform: translateY(-300px) scale(0); opacity: 0; }
-    }
+/* Заголовок */
+.title{text-align:center;padding:80px 20px 40px;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);position:relative;overflow:hidden}
+.title h1{
+  font-size:3.5em;color:#00e0ff;
+  text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff,0 0 60px #7df9ff,0 0 80px #7df9ff;
+  animation:pulse 3s infinite alternate ease-in-out;letter-spacing:2px
+}
+@keyframes pulse{from{text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff}to{text-shadow:0 0 25px #7df9ff,0 0 80px #00e0ff,0 0 120px #7df9ff}}
+.spark{position:absolute;width:6px;height:6px;background:radial-gradient(circle,#fff 0%,#00e0ff 60%,transparent 100%);border-radius:50%;opacity:.8;animation:sparkle 5s linear infinite}
+@keyframes sparkle{from{transform:translateY(0)scale(1);opacity:.9}to{transform:translateY(-300px)scale(0);opacity:0}}
 
-    /* Навигация */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(6px);
-      padding: 15px 0;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 25px;
-    }
-    nav a, .random-nav-btn {
-      color: #7df9ff;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s, text-shadow 0.3s;
-      cursor: pointer;
-    }
-    nav a:hover, .random-nav-btn:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #00e0ff;
-    }
+/* Навигация */
+nav{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);padding:15px 0;display:flex;justify-content:center;flex-wrap:wrap;gap:25px}
+nav a,.random-nav-btn{color:#7df9ff;text-decoration:none;font-weight:600;transition:color .3s,text-shadow .3s;cursor:pointer}
+nav a:hover,.random-nav-btn:hover{color:#fff;text-shadow:0 0 10px #00e0ff}
 
-    /* Контейнер */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
-    .block {
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
-      margin-bottom: 60px;
-      backdrop-filter: blur(6px);
-    }
-    .block h2 {
-      text-align: center;
-      font-size: 1.6em;
-      margin-bottom: 20px;
-      color: #7df9ff;
-      text-shadow: 0 0 10px #00e0ff;
-    }
-    .slider {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-    }
-    .slides {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-    .slides img {
-      width: 100%;
-      border-radius: 12px;
-      flex-shrink: 0;
-    }
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.55);
-      border: none;
-      color: #7df9ff;
-      font-size: 1.5em;
-      cursor: pointer;
-      padding: 8px 14px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #00e0ff;
-      transition: all 0.2s;
-    }
-    .nav-btn:hover {
-      background: #00e0ff;
-      color: #000;
-      box-shadow: 0 0 20px #00e0ff;
-    }
-    .nav-prev { left: 10px; }
-    .nav-next { right: 10px; }
+/* Контейнер */
+.container{max-width:900px;margin:0 auto;padding:40px 20px 80px}
+.block{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:25px;box-shadow:0 0 25px rgba(0,255,255,.15);margin-bottom:60px;backdrop-filter:blur(6px)}
+.block h2{text-align:center;font-size:1.6em;margin-bottom:20px;color:#7df9ff;text-shadow:0 0 10px #00e0ff}
+.slider{position:relative;overflow:hidden;border-radius:12px}
+.slides{display:flex;transition:transform .5s ease}
+.slides img{width:100%;border-radius:12px;flex-shrink:0}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.55);border:none;color:#7df9ff;font-size:1.5em;cursor:pointer;padding:8px 14px;border-radius:8px;box-shadow:0 0 10px #00e0ff;transition:all .2s}
+.nav-btn:hover{background:#00e0ff;color:#000;box-shadow:0 0 20px #00e0ff}
+.nav-prev{left:10px}.nav-next{right:10px}
+.controls{display:flex;justify-content:center;gap:15px;margin-top:15px}
+button.action{cursor:pointer;border:none;background:#00e0ff;color:#000;font-weight:700;padding:8px 18px;border-radius:8px;transition:all .25s;text-transform:uppercase;letter-spacing:.02em;font-size:.85em;box-shadow:0 0 10px #00e0ff}
+button.action:hover{background:#7df9ff;box-shadow:0 0 20px #00e0ff,0 0 40px #00e0ff}
+.prompt-text{display:none;margin-top:15px;font-size:.9em;background:rgba(255,255,255,.08);border-radius:8px;padding:12px;white-space:pre-wrap}
 
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 15px;
-    }
-    button.action {
-      cursor: pointer;
-      border: none;
-      background: #00e0ff;
-      color: #000;
-      font-weight: 700;
-      padding: 8px 18px;
-      border-radius: 8px;
-      transition: all 0.25s;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-      font-size: 0.85em;
-      box-shadow: 0 0 10px #00e0ff;
-    }
-    button.action:hover {
-      background: #7df9ff;
-      box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
-    }
-    .prompt-text {
-      display: none;
-      margin-top: 15px;
-      font-size: 0.9em;
-      background: rgba(255,255,255,0.08);
-      border-radius: 8px;
-      padding: 12px;
-      white-space: pre-wrap;
-    }
+/* Волшебная дверь */
+.door-container{text-align:center;margin-top:80px;position:relative}
+.door-container img{
+  width:200px;border-radius:10px;cursor:pointer;
+  box-shadow:0 0 25px rgba(0,255,255,0.4);
+  transition:transform .6s ease, box-shadow .6s ease;
+  transform-origin:left center;
+}
+.door-container img:hover{
+  transform:rotateY(-15deg);
+  box-shadow:0 0 50px rgba(0,255,255,0.8);
+}
+.door-glow{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:220px;height:340px;
+  background:radial-gradient(circle at center,rgba(0,255,255,0.4),transparent 70%);
+  filter:blur(40px);z-index:-1;opacity:0;transition:opacity .6s;
+}
+.door-container:hover .door-glow{opacity:1}
 
-    /* Волшебная дверь */
-    .door {
-      width: 200px;
-      height: 320px;
-      margin: 80px auto 0;
-      border-radius: 10px;
-      position: relative;
-      perspective: 1000px;
-      cursor: pointer;
-      transform-style: preserve-3d;
-    }
-    .door-frame {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      border: 2px solid #00e0ff;
-      background: radial-gradient(circle at center, rgba(0,255,255,0.3), rgba(0,0,0,0.9) 80%);
-      box-shadow: 0 0 30px #00e0ff, inset 0 0 40px rgba(0,255,255,0.2);
-      transition: all 0.5s ease;
-      transform-origin: left;
-    }
-    .door:hover .door-frame {
-      transform: rotateY(-25deg);
-      box-shadow: 0 0 50px #00e0ff, inset 0 0 60px rgba(0,255,255,0.4);
-    }
-    .door::after {
-      content: "";
-      position: absolute;
-      inset: -20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,255,255,0.4), transparent 70%);
-      filter: blur(30px);
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-    .door:hover::after { opacity: 1; }
-    .door-icon {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3em;
-      color: #7df9ff;
-      text-shadow: 0 0 10px #00e0ff, 0 0 20px #7df9ff;
-      z-index: 5;
-      pointer-events: none;
-    }
+/* Модал */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;z-index:100}
+.modal-content{background:rgba(0,0,0,0.7);border:1px solid rgba(0,255,255,0.4);border-radius:15px;padding:20px;max-width:600px;text-align:center;box-shadow:0 0 25px #00e0ff}
+.modal-content img{width:100%;border-radius:10px;margin-bottom:15px}
+.close-btn{background:#00e0ff;color:#000;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;transition:all .2s}
+.close-btn:hover{background:#7df9ff;box-shadow:0 0 15px #00e0ff}
 
-    .door-text {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    footer {
-      text-align: center;
-      color: #aaa;
-      padding: 40px 0;
-      background: rgba(0, 0, 0, 0.6);
-      font-size: 0.9em;
-    }
-
-    /* Модальное окно */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-    }
-    .modal-content {
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(0,255,255,0.4);
-      border-radius: 15px;
-      padding: 20px;
-      max-width: 600px;
-      text-align: center;
-      box-shadow: 0 0 25px #00e0ff;
-    }
-    .modal-content img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    .close-btn {
-      background: #00e0ff;
-      color: #000;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: all 0.2s;
-    }
-    .close-btn:hover {
-      background: #7df9ff;
-      box-shadow: 0 0 15px #00e0ff;
-    }
-  </style>
+footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);font-size:.9em}
+</style>
 </head>
 <body>
 
-  <div class="title">
-    <h1>Spellbook for AI ✨</h1>
-    <div class="spark" style="left:10%; animation-delay:0s;"></div>
-    <div class="spark" style="left:25%; animation-delay:1s;"></div>
-    <div class="spark" style="left:50%; animation-delay:2s;"></div>
-    <div class="spark" style="left:75%; animation-delay:3s;"></div>
-    <div class="spark" style="left:90%; animation-delay:4s;"></div>
+<div class="title">
+  <h1>Spellbook for AI ✨</h1>
+  <div class="spark" style="left:10%;animation-delay:0s"></div>
+  <div class="spark" style="left:25%;animation-delay:1s"></div>
+  <div class="spark" style="left:50%;animation-delay:2s"></div>
+  <div class="spark" style="left:75%;animation-delay:3s"></div>
+  <div class="spark" style="left:90%;animation-delay:4s"></div>
+</div>
+
+<nav>
+  <a href="#magic">Magic</a>
+  <a href="#neon">Futuristic Digital Energy</a>
+  <a href="#gothic">Gothic</a>
+  <a href="#dragons">Dragons • Fantasy</a>
+  <a href="#city">City • Cyberpunk</a>
+  <span class="random-nav-btn" onclick="showRandom()">✨ Random Prompt</span>
+</nav>
+
+<main class="container" id="gallery-container"></main>
+
+<div class="door-container" onclick="openDoor()">
+  <div class="door-glow"></div>
+  <img id="magic-door" src="images/door.png" alt="Magic Door">
+  <div style="margin-top:20px"><button class="action" onclick="showRandom()">Random Prompt</button></div>
+</div>
+
+<footer>
+  <hr style="border-color:rgba(255,255,255,0.1);width:80%;margin-bottom:20px">
+  <p>Prompt Gallery © 2025 Galina Vas</p>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <img src="" alt="">
+    <p id="modal-text"></p>
+    <button class="close-btn" onclick="closeModal()">Закрыть</button>
   </div>
+</div>
 
-  <nav>
-    <a href="#magic">Magic</a>
-    <a href="#neon">Futuristic Digital Energy</a>
-    <a href="#gothic">Gothic</a>
-    <a href="#dragons">Dragons • Fantasy</a>
-    <a href="#city">City • Cyberpunk</a>
-    <span class="random-nav-btn" onclick="showRandom()">✨ Random Prompt</span>
-  </nav>
+<script>
+const data={
+  magic:{title:"Magic",images:["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],prompts:["A charming young elf wizard...","Two playful fairy friends...","A cozy treehouse...","A wise elf elder...","A glowing crystal waterfall..."]},
+  neon:{title:"Futuristic Digital Energy",images:["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],prompts:["A futuristic AI energy core...","Abstract neon portrait...","Exploding digital universe...","Futuristic holographic interface...","An AI brain made of light..."]},
+  gothic:{title:"Gothic",images:["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],prompts:["A rain-soaked street...","A lone figure in crimson cloak...","A towering gothic cathedral...","An abandoned gothic hall...","A gothic bridge at night..."]},
+  dragons:{title:"Dragons • Fantasy",images:["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],prompts:["A majestic dragon perched...","A baby dragon curled...","Dragon and child...","Wyverns racing through clouds...","A dragon egg hatching..."]},
+  city:{title:"City • Cyberpunk",images:["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],prompts:["Neon-drenched megacity...","Rooftop chase between androids...","Street market with AR stalls...","Cyborg portrait...","Monorail through skyscrapers..."]}
+};
 
-  <main class="container" id="gallery-container"></main>
-
-  <div class="door" onclick="showRandom()">
-    <div class="door-frame"></div>
-    <div class="door-icon">🚪</div>
+const main=document.getElementById("gallery-container");
+Object.entries(data).forEach(([id,section])=>{
+  const html=`<section class="block" id="${id}">
+  <h2>${section.title}</h2>
+  <div class="slider" data-block="${id}">
+    <div class="slides">${section.images.map(src=>`<img src="images/${src}" alt="">`).join("")}</div>
+    <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
+    <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
   </div>
-  <div class="door-text">
-    <button class="action" onclick="showRandom()">Random Prompt</button>
+  <div class="controls">
+    <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
+    <button class="action" onclick="copyPrompt(this)">Скопировать</button>
   </div>
+  <div class="prompt-text">${section.prompts[0]}</div>
+</section>`;
+  main.insertAdjacentHTML("beforeend",html);
+});
 
-  <footer>
-    <hr style="border-color: rgba(255,255,255,0.1); width: 80%; margin-bottom: 20px;">
-    <p>Prompt Gallery © 2025 Galina Vas</p>
-  </footer>
+function nextSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block,x=s.querySelector(".slides"),i=x.querySelectorAll("img"),t=s.closest(".block").querySelector(".prompt-text");let n=parseInt(s.dataset.index||0);n=(n+1)%i.length;x.style.transform=`translateX(-${n*100}%)`;s.dataset.index=n;t.textContent=data[b].prompts[n];}
+function prevSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block,x=s.querySelector(".slides"),i=x.querySelectorAll("img"),t=s.closest(".block").querySelector(".prompt-text");let n=parseInt(s.dataset.index||0);n=(n-1+i.length)%i.length;x.style.transform=`translateX(-${n*100}%)`;s.dataset.index=n;t.textContent=data[b].prompts[n];}
+function togglePrompt(btn){const b=btn.closest(".block").querySelector(".prompt-text"),v=b.style.display==="block";b.style.display=v?"none":"block";btn.textContent=v?"Показать промпт":"Скрыть промпт";}
+function copyPrompt(btn){const t=btn.closest(".block").querySelector(".prompt-text").textContent;navigator.clipboard.writeText(t.trim());btn.textContent="Скопировано!";setTimeout(()=>btn.textContent="Скопировать",1500);}
 
-  <div class="modal" id="modal">
-    <div class="modal-content" id="modal-content">
-      <img src="" alt="">
-      <p id="modal-text"></p>
-      <button class="close-btn" onclick="closeModal()">Закрыть</button>
-    </div>
-  </div>
+function showRandom(){
+  const categories=Object.values(data);
+  const randomCategory=categories[Math.floor(Math.random()*categories.length)];
+  const idx=Math.floor(Math.random()*randomCategory.images.length);
+  const img=randomCategory.images[idx];
+  const txt=randomCategory.prompts[idx];
+  const modal=document.getElementById("modal");
+  modal.style.display="flex";
+  modal.querySelector("img").src="images/"+img;
+  modal.querySelector("#modal-text").textContent=txt;
+}
+function closeModal(){document.getElementById("modal").style.display="none";}
 
-  <script>
-    const data = { /* тот же объект с Magic, Neon, Gothic, Dragons, City и промптами */ };
-
-    const main = document.getElementById("gallery-container");
-    Object.entries(data).forEach(([id, section]) => {
-      const html = `
-        <section class="block" id="${id}">
-          <h2>${section.title}</h2>
-          <div class="slider" data-block="${id}">
-            <div class="slides">
-              ${section.images.map(src => `<img src="images/${src}" alt="">`).join("")}
-            </div>
-            <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
-            <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
-          </div>
-          <div class="controls">
-            <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
-            <button class="action" onclick="copyPrompt(this)">Скопировать</button>
-          </div>
-          <div class="prompt-text">${section.prompts[0]}</div>
-        </section>`;
-      main.insertAdjacentHTML("beforeend", html);
-    });
-
-    function nextSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block,x=s.querySelector(".slides"),i=x.querySelectorAll("img"),t=s.closest(".block").querySelector(".prompt-text");let n=parseInt(s.dataset.index||0);n=(n+1)%i.length;x.style.transform=`translateX(-${n*100}%)`;s.dataset.index=n;t.textContent=data[b].prompts[n];}
-    function prevSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block,x=s.querySelector(".slides"),i=x.querySelectorAll("img"),t=s.closest(".block").querySelector(".prompt-text");let n=parseInt(s.dataset.index||0);n=(n-1+i.length)%i.length;x.style.transform=`translateX(-${n*100}%)`;s.dataset.index=n;t.textContent=data[b].prompts[n];}
-    function togglePrompt(btn){const b=btn.closest(".block").querySelector(".prompt-text"),v=b.style.display==="block";b.style.display=v?"none":"block";btn.textContent=v?"Показать промпт":"Скрыть промпт";}
-    function copyPrompt(btn){const t=btn.closest(".block").querySelector(".prompt-text").textContent;navigator.clipboard.writeText(t.trim());btn.textContent="Скопировано!";setTimeout(()=>btn.textContent="Скопировать",1500);}
-
-    function showRandom(){
-      const categories=Object.values(data);
-      const randomCategory=categories[Math.floor(Math.random()*categories.length)];
-      const idx=Math.floor(Math.random()*randomCategory.images.length);
-      const img=randomCategory.images[idx];
-      const txt=randomCategory.prompts[idx];
-      const modal=document.getElementById("modal");
-      modal.style.display="flex";
-      modal.querySelector("img").src="images/"+img;
-      modal.querySelector("#modal-text").textContent=txt;
-    }
-    function closeModal(){document.getElementById("modal").style.display="none";}
-  </script>
+/* Анимация двери */
+function openDoor(){
+  const door=document.getElementById("magic-door");
+  door.style.transform="rotateY(-90deg)";
+  setTimeout(()=>{showRandom();door.style.transform="";},600);
+}
+</script>
 </body>
 </html>
