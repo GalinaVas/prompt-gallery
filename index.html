@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prompt Gallery</title>
+  <title>Spellbook for AI</title>
   <style>
     * { box-sizing: border-box; scroll-behavior: smooth; }
     body {
@@ -21,6 +21,54 @@
       background: rgba(0,0,0,0.35);
       pointer-events: none;
     }
+
+    /* ---------- TITLE ---------- */
+    .title {
+      text-align: center;
+      padding: 80px 20px 40px;
+      position: relative;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      overflow: hidden;
+    }
+    .title h1 {
+      font-size: 3.5em;
+      color: #00e0ff;
+      text-shadow:
+        0 0 15px #00e0ff,
+        0 0 30px #00e0ff,
+        0 0 60px #7df9ff,
+        0 0 80px #7df9ff;
+      letter-spacing: 2px;
+      animation: pulse 3s infinite alternate ease-in-out;
+    }
+    @keyframes pulse {
+      from { text-shadow: 0 0 15px #00e0ff, 0 0 30px #00e0ff; }
+      to { text-shadow: 0 0 25px #7df9ff, 0 0 80px #00e0ff, 0 0 120px #7df9ff; }
+    }
+
+    /* MAGIC PARTICLES */
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, #fff 0%, #00e0ff 60%, transparent 100%);
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: sparkle 5s linear infinite;
+    }
+    @keyframes sparkle {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 0.9;
+      }
+      to {
+        transform: translateY(-300px) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* ---------- NAVIGATION ---------- */
     nav {
       position: sticky;
       top: 0;
@@ -43,6 +91,8 @@
       color: #fff;
       text-shadow: 0 0 10px #00e0ff;
     }
+
+    /* ---------- GALLERY ---------- */
     .container {
       max-width: 900px;
       margin: 0 auto;
@@ -133,6 +183,8 @@
       padding: 12px;
       white-space: pre-wrap;
     }
+
+    /* ---------- FOOTER ---------- */
     footer {
       text-align: center;
       color: #aaa;
@@ -144,6 +196,18 @@
 </head>
 <body>
 
+  <!-- TITLE -->
+  <div class="title">
+    <h1>Spellbook for AI ✨</h1>
+    <!-- добавим немного искр -->
+    <div class="spark" style="left:10%; animation-delay:0s;"></div>
+    <div class="spark" style="left:25%; animation-delay:1s;"></div>
+    <div class="spark" style="left:50%; animation-delay:2s;"></div>
+    <div class="spark" style="left:75%; animation-delay:3s;"></div>
+    <div class="spark" style="left:90%; animation-delay:4s;"></div>
+  </div>
+
+  <!-- NAVIGATION -->
   <nav>
     <a href="#magic">Magic</a>
     <a href="#neon">Futuristic Digital Energy</a>
@@ -152,15 +216,17 @@
     <a href="#city">City • Cyberpunk</a>
   </nav>
 
+  <!-- GALLERY -->
   <main class="container" id="gallery-container"></main>
 
+  <!-- FOOTER -->
   <footer>
     <hr style="border-color: rgba(255,255,255,0.1); width: 80%; margin-bottom: 20px;">
-    <p>Prompt Gallery © 2025 Galina Vas<br>
-    Created with ❤️ using HTML, CSS & JS</p>
+    <p>Prompt Gallery © 2025 Galina Vas</p>
   </footer>
 
   <script>
+    /* та же логика, просто без изменений контента */
     const data = {
       magic: {
         title: "Magic",
@@ -191,92 +257,4 @@
 `A rain-soaked cobblestone street under gaslight, towering gothic cathedral, ultra-realistic photo, deep shadows, dramatic volumetric fog —ar 3:2 —v 5`,
 `A lone figure in crimson cloak on a ruined balcony, cinematic HDR photo style, high detail, moody sky —ar 2:3 —v 5`,
 `A towering gothic cathedral at dusk, dramatic clouds and fog swirling around the spires, cinematic photography, ultra-realistic lighting, wet cobblestone reflections, high contrast chiaroscuro mood —ar 4:5 —v 5`,
-`An abandoned gothic hall illuminated by moonlight through stained glass windows, drifting mist across the floor, cinematic ultra-realistic photograph, deep contrast, cold blue tones with subtle candlelight glow, rich architectural detail —ar 16:9 —v 5`,
-`A gothic bridge at night shrouded in fog, lanterns casting golden reflections on wet stone, dramatic cinematic lighting, ultra-realistic photography, moody atmosphere, intricate architecture, faint silhouettes in the distance —ar 3:2 —v 5`
-        ]
-      },
-      dragons: {
-        title: "Dragons • Fantasy",
-        images: ["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],
-        prompts: [
-`A majestic dragon perched on a cliff overlooking a fantasy valley, painterly high-detail illustration, dramatic light, scale texture —ar 16:9 —v 5`,
-`A baby dragon curled around a glowing crystal in a dark cave, bioluminescent reflections on scales, cinematic fantasy lighting, ultra-detailed textures, misty background, painterly high-realism illustration —ar 4:5 —v 5`,
-`Dragon and child sharing a quiet moment by a campfire, evocative fantasy scene, cinematic color grading —ar 3:2 —v 5`,
-`A pack of wyvern-like creatures racing through storm clouds, dynamic composition, high-detail fantasy art —ar 21:9 —v 5`,
-`A dragon egg hatching in an ancient nest among glowing runes, mystical atmosphere, highly detailed —ar 1:1 —v 5`
-        ]
-      },
-      city: {
-        title: "City • Cyberpunk",
-        images: ["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],
-        prompts: [
-`Neon-drenched megacity at night, rain-slick streets, towering holograms, cinematic wide shot, gritty realism —ar 21:9 —v 5`,
-`Rooftop chase between androids with neon signage, dynamic motion, cinematic lighting —ar 16:9 —v 5`,
-`A bustling street market with augmented-reality stalls and colorful signage, cinematic photo-real render, rich detail —ar 4:5 —v 5`,
-`Close-up portrait of a cyborg with neon facial tattoos, hyper-detailed, cinematic studio lighting —ar 2:3 —v 5`,
-`A monorail gliding through layers of neon skyscrapers, aerial cinematic shot, high detail —ar 3:2 —v 5`
-        ]
-      }
-    };
-
-    const main = document.getElementById("gallery-container");
-
-    Object.entries(data).forEach(([id, section]) => {
-      const html = `
-        <section class="block" id="${id}">
-          <h2>${section.title}</h2>
-          <div class="slider" data-block="${id}">
-            <div class="slides">
-              ${section.images.map(src => `<img src="images/${src}" alt="">`).join("")}
-            </div>
-            <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
-            <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
-          </div>
-          <div class="controls">
-            <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
-            <button class="action" onclick="copyPrompt(this)">Скопировать</button>
-          </div>
-          <div class="prompt-text">${section.prompts[0]}</div>
-        </section>`;
-      main.insertAdjacentHTML("beforeend", html);
-    });
-
-    function nextSlide(btn){
-      const slider = btn.closest(".slider");
-      const block = slider.dataset.block;
-      const slides = slider.querySelector(".slides");
-      const imgs = slides.querySelectorAll("img");
-      const promptBox = slider.closest(".block").querySelector(".prompt-text");
-      let index = parseInt(slider.dataset.index || 0);
-      index = (index + 1) % imgs.length;
-      slides.style.transform = `translateX(-${index * 100}%)`;
-      slider.dataset.index = index;
-      promptBox.textContent = data[block].prompts[index];
-    }
-    function prevSlide(btn){
-      const slider = btn.closest(".slider");
-      const block = slider.dataset.block;
-      const slides = slider.querySelector(".slides");
-      const imgs = slides.querySelectorAll("img");
-      const promptBox = slider.closest(".block").querySelector(".prompt-text");
-      let index = parseInt(slider.dataset.index || 0);
-      index = (index - 1 + imgs.length) % imgs.length;
-      slides.style.transform = `translateX(-${index * 100}%)`;
-      slider.dataset.index = index;
-      promptBox.textContent = data[block].prompts[index];
-    }
-    function togglePrompt(btn){
-      const box = btn.closest(".block").querySelector(".prompt-text");
-      const visible = box.style.display === "block";
-      box.style.display = visible ? "none" : "block";
-      btn.textContent = visible ? "Показать промпт" : "Скрыть промпт";
-    }
-    function copyPrompt(btn){
-      const text = btn.closest(".block").querySelector(".prompt-text").textContent;
-      navigator.clipboard.writeText(text.trim());
-      btn.textContent = "Скопировано!";
-      setTimeout(()=>btn.textContent="Скопировать",1500);
-    }
-  </script>
-</body>
-</html>
+`An abandoned gothic hall illuminated by moonlight through stained glass
