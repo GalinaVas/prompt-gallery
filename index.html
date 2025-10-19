@@ -11,12 +11,12 @@
       font-family: "Segoe UI", sans-serif;
       color: #fff;
       background: url("images/background.png") center/cover fixed no-repeat;
-      background-color: #050510;
+      background-color: #02020a;
     }
     header {
       text-align: center;
       padding: 60px 20px 40px;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(4px);
     }
     header h1 {
@@ -25,203 +25,89 @@
       color: #7df9ff;
       text-shadow: 0 0 15px #00e0ff;
     }
-    header p {
-      color: #cfe8ff;
-    }
+    header p { color: #cfe8ff; }
     .container {
-      display: grid;
-      gap: 50px;
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 40px 20px 80px;
     }
     .block {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       padding: 25px;
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+      margin-bottom: 60px;
     }
     .block h2 {
       text-align: center;
       font-size: 1.6em;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       color: #7df9ff;
       text-shadow: 0 0 10px #00e0ff;
     }
-    .grid {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-    figure {
-      margin: 0;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
+
+    /* slider */
+    .slider {
+      position: relative;
       overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      border-radius: 12px;
     }
-    img {
-      width: 100%;
-      display: block;
-      transition: transform 0.3s;
-    }
-    img:hover {
-      transform: scale(1.03);
-    }
-    figcaption {
-      padding: 12px 15px;
-      background: rgba(0, 0, 0, 0.7);
-      font-size: 0.9em;
-      line-height: 1.4em;
-    }
-    .buttons {
+    .slides {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
+      transition: transform 0.5s ease;
     }
-    button {
+    .slides img {
+      width: 100%;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: #7df9ff;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 8px 14px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00e0ff;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: #00e0ff;
+      color: #000;
+      box-shadow: 0 0 20px #00e0ff;
+    }
+    .nav-prev { left: 10px; }
+    .nav-next { right: 10px; }
+
+    /* controls */
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    button.action {
       cursor: pointer;
       border: none;
       background: #00e0ff;
       color: #000;
       font-weight: 600;
-      padding: 6px 14px;
+      padding: 8px 18px;
       border-radius: 8px;
       transition: all 0.25s;
       text-transform: uppercase;
       letter-spacing: 0.02em;
-      font-size: 0.8em;
+      font-size: 0.85em;
       box-shadow: 0 0 10px #00e0ff;
     }
-    button:hover {
+    button.action:hover {
       background: #7df9ff;
       box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
     }
     .prompt-text {
-      display: none;
-      margin-top: 10px;
-      font-size: 0.85em;
-      background: rgba(255,255,255,0.08);
-      border-radius: 8px;
-      padding: 10px;
-      white-space: pre-wrap;
-    }
-    footer {
-      text-align: center;
-      color: #aaa;
-      padding: 40px 0;
-      background: rgba(0, 0, 0, 0.6);
-      font-size: 0.9em;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>🪄 Prompt Gallery</h1>
-    <p>Magic • Neon • Gothic • Dragons • Cyberpunk</p>
-  </header>
-
-  <main class="container">
-
-    <!-- Block 1 -->
-    <section class="block">
-      <h2>Magic • Elves • Enchanted World (Pixar / Disney style)</h2>
-      <div class="grid">
-        <!-- one image pattern -->
-        <figure>
-          <img src="images/magic-01.png" alt="magic-01">
-          <figcaption>
-            <div class="buttons">
-              <span>magic-01.png</span>
-              <div>
-                <button onclick="togglePrompt(this)">Показать промпт</button>
-                <button onclick="copyPrompt(this)">Скопировать</button>
-              </div>
-            </div>
-            <div class="prompt-text">
-A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5
-            </div>
-          </figcaption>
-        </figure>
-        <figure>
-          <img src="images/magic-02.png" alt="">
-          <figcaption>
-            <div class="buttons">
-              <span>magic-02.png</span>
-              <div>
-                <button onclick="togglePrompt(this)">Показать промпт</button>
-                <button onclick="copyPrompt(this)">Скопировать</button>
-              </div>
-            </div>
-            <div class="prompt-text">Two playful fairy friends dancing on glowing mushrooms, high-detail 3D animation, gentle bokeh background, storybook composition, heartwarming mood —ar 4:5 —v 5</div>
-          </figcaption>
-        </figure>
-        <figure>
-          <img src="images/magic-03.png" alt="">
-          <figcaption>
-            <div class="buttons">
-              <span>magic-03.png</span>
-              <div>
-                <button onclick="togglePrompt(this)">Показать промпт</button>
-                <button onclick="copyPrompt(this)">Скопировать</button>
-              </div>
-            </div>
-            <div class="prompt-text">A cozy treehouse village with lanterns and floating boats, magical 3D scene, painterly textures —ar 16:9 —v 5</div>
-          </figcaption>
-        </figure>
-        <figure>
-          <img src="images/magic-04.png" alt="">
-          <figcaption>
-            <div class="buttons">
-              <span>magic-04.png</span>
-              <div>
-                <button onclick="togglePrompt(this)">Показать промпт</button>
-                <button onclick="copyPrompt(this)">Скопировать</button>
-              </div>
-            </div>
-            <div class="prompt-text">A wise elf elder teaching children spells under ancient oaks, cinematic 3D animation, warm rim lighting, storybook framing —ar 3:4 —v 5</div>
-          </figcaption>
-        </figure>
-        <figure>
-          <img src="images/magic-05.png" alt="">
-          <figcaption>
-            <div class="buttons">
-              <span>magic-05.png</span>
-              <div>
-                <button onclick="togglePrompt(this)">Показать промпт</button>
-                <button onclick="copyPrompt(this)">Скопировать</button>
-              </div>
-            </div>
-            <div class="prompt-text">A glowing crystal waterfall where tiny sprites play, fantasy 3D illustration, soft shadows, high material detail, magical atmosphere, warm golden and turquoise lighting, soft sunset glow, Pixar-style color palette —ar 5:4 —v 5</div>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- остальные блоки в том же формате: Neon, Gothic, Dragons, City -->
-    <!-- (я добавлю их полностью в следующем шаге, чтобы код не обрезался) -->
-
-  </main>
-
-  <footer>
-    © 2025 Galina Vas | Prompt Gallery
-  </footer>
-
-  <script>
-    function togglePrompt(btn) {
-      const box = btn.closest("figcaption").querySelector(".prompt-text");
-      const visible = box.style.display === "block";
-      box.style.display = visible ? "none" : "block";
-      btn.textContent = visible ? "Показать промпт" : "Скрыть промпт";
-    }
-    function copyPrompt(btn) {
-      const text = btn.closest("figcaption").querySelector(".prompt-text").textContent;
-      navigator.clipboard.writeText(text.trim());
-      btn.textContent = "Скопировано!";
-      setTimeout(() => (btn.textContent = "Скопировать"), 1500);
-    }
-  </script>
-</body>
-</html>
+      display: no
