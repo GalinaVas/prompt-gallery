@@ -8,10 +8,20 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
+      font-family: "Segoe UI", system-ui, sans-serif;
       color: #fff;
       background: url("images/background.png") center/cover fixed no-repeat;
-      background-color: #02020a;
+      background-color: #02020a; /* запасной фон */
+      position: relative;
+      min-height: 100vh;
+    }
+    /* мягкое затемнение поверх фона, чтобы фон точно был виден */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      pointer-events: none;
     }
     header {
       text-align: center;
@@ -26,10 +36,13 @@
       text-shadow: 0 0 15px #00e0ff;
     }
     header p { color: #cfe8ff; }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 40px 20px 80px;
+      position: relative;
+      z-index: 1; /* поверх затемнения */
     }
     .block {
       background: rgba(0, 0, 0, 0.65);
@@ -61,12 +74,13 @@
       width: 100%;
       border-radius: 12px;
       flex-shrink: 0;
+      display: block;
     }
     .nav-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.55);
       border: none;
       color: #7df9ff;
       font-size: 1.5em;
@@ -94,9 +108,9 @@
     button.action {
       cursor: pointer;
       border: none;
-      background: #00e0ff;
+      background: #00e0ff; /* неоновая */
       color: #000;
-      font-weight: 600;
+      font-weight: 700;
       padding: 8px 18px;
       border-radius: 8px;
       transition: all 0.25s;
@@ -110,4 +124,115 @@
       box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
     }
     .prompt-text {
-      display: no
+      display: none;
+      margin-top: 15px;
+      font-size: 0.9em;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre-wrap;
+    }
+    footer {
+      text-align: center;
+      color: #aaa;
+      padding: 40px 0;
+      background: rgba(0, 0, 0, 0.6);
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Prompt Gallery</h1>
+    <p>Magic • Neon • Gothic • Dragons • Cyberpunk</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Block 1 -->
+    <section class="block">
+      <h2>Magic • Elves • Enchanted World (Pixar / Disney style)</h2>
+
+      <div class="slider" data-block="magic">
+        <div class="slides">
+          <img src="images/magic-01.png" alt="">
+          <img src="images/magic-02.png" alt="">
+          <img src="images/magic-03.png" alt="">
+          <img src="images/magic-04.png" alt="">
+          <img src="images/magic-05.png" alt="">
+        </div>
+        <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
+        <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
+      </div>
+
+      <div class="controls">
+        <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
+        <button class="action" onclick="copyPrompt(this)">Скопировать</button>
+      </div>
+
+      <div class="prompt-text">
+A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5
+      </div>
+    </section>
+
+  </main>
+
+  <footer>© 2025 Galina Vas | Prompt Gallery</footer>
+
+  <script>
+    // init prompt on load
+    document.addEventListener("DOMContentLoaded", () => {
+      const block = document.querySelector(".block");
+      if (!block) return;
+      const slider = block.querySelector(".slider");
+      slider.dataset.index = 0;
+      updatePrompt(slider, 0);
+    });
+
+    function nextSlide(btn){
+      const slider = btn.closest(".slider");
+      const slides = slider.querySelector(".slides");
+      const imgs = slides.querySelectorAll("img");
+      let index = parseInt(slider.dataset.index || 0);
+      index = (index + 1) % imgs.length;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      slider.dataset.index = index;
+      updatePrompt(slider, index);
+    }
+    function prevSlide(btn){
+      const slider = btn.closest(".slider");
+      const slides = slider.querySelector(".slides");
+      const imgs = slides.querySelectorAll("img");
+      let index = parseInt(slider.dataset.index || 0);
+      index = (index - 1 + imgs.length) % imgs.length;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      slider.dataset.index = index;
+      updatePrompt(slider, index);
+    }
+    function updatePrompt(slider, index){
+      const block = slider.closest(".block");
+      const promptBox = block.querySelector(".prompt-text");
+      const prompts = [
+`A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5`,
+`Two playful fairy friends dancing on glowing mushrooms, high-detail 3D animation, gentle bokeh background, storybook composition, heartwarming mood —ar 4:5 —v 5`,
+`A cozy treehouse village with lanterns and floating boats, magical 3D scene, painterly textures —ar 16:9 —v 5`,
+`A wise elf elder teaching children spells under ancient oaks, cinematic 3D animation, warm rim lighting, storybook framing —ar 3:4 —v 5`,
+`A glowing crystal waterfall where tiny sprites play, fantasy 3D illustration, soft shadows, high material detail, magical atmosphere, warm golden and turquoise lighting, soft sunset glow, Pixar-style color palette —ar 5:4 —v 5`
+      ];
+      promptBox.textContent = prompts[index];
+    }
+    function togglePrompt(btn){
+      const box = btn.closest(".block").querySelector(".prompt-text");
+      const visible = box.style.display === "block";
+      box.style.display = visible ? "none" : "block";
+      btn.textContent = visible ? "Показать промпт" : "Скрыть промпт";
+    }
+    function copyPrompt(btn){
+      const text = btn.closest(".block").querySelector(".prompt-text").textContent;
+      navigator.clipboard.writeText(text.trim());
+      btn.textContent = "Скопировано!";
+      setTimeout(()=>btn.textContent="Скопировать",1500);
+    }
+  </script>
+</body>
+</html>
