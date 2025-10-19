@@ -11,11 +11,10 @@
       font-family: "Segoe UI", system-ui, sans-serif;
       color: #fff;
       background: url("images/background.png") center/cover fixed no-repeat;
-      background-color: #02020a; /* запасной фон */
+      background-color: #02020a;
       position: relative;
       min-height: 100vh;
     }
-    /* мягкое затемнение поверх фона, чтобы фон точно был виден */
     body::before {
       content: "";
       position: fixed;
@@ -42,7 +41,7 @@
       margin: 0 auto;
       padding: 40px 20px 80px;
       position: relative;
-      z-index: 1; /* поверх затемнения */
+      z-index: 1;
     }
     .block {
       background: rgba(0, 0, 0, 0.65);
@@ -60,7 +59,6 @@
       text-shadow: 0 0 10px #00e0ff;
     }
 
-    /* slider */
     .slider {
       position: relative;
       overflow: hidden;
@@ -98,7 +96,6 @@
     .nav-prev { left: 10px; }
     .nav-next { right: 10px; }
 
-    /* controls */
     .controls {
       display: flex;
       justify-content: center;
@@ -108,7 +105,7 @@
     button.action {
       cursor: pointer;
       border: none;
-      background: #00e0ff; /* неоновая */
+      background: #00e0ff;
       color: #000;
       font-weight: 700;
       padding: 8px 18px;
@@ -149,44 +146,119 @@
 
   <main class="container">
 
-    <!-- Block 1 -->
-    <section class="block">
-      <h2>Magic • Elves • Enchanted World (Pixar / Disney style)</h2>
-
-      <div class="slider" data-block="magic">
-        <div class="slides">
-          <img src="images/magic-01.png" alt="">
-          <img src="images/magic-02.png" alt="">
-          <img src="images/magic-03.png" alt="">
-          <img src="images/magic-04.png" alt="">
-          <img src="images/magic-05.png" alt="">
-        </div>
-        <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
-        <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
-      </div>
-
-      <div class="controls">
-        <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
-        <button class="action" onclick="copyPrompt(this)">Скопировать</button>
-      </div>
-
-      <div class="prompt-text">
-A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5
-      </div>
-    </section>
+    <!-- Блоки -->
+    <section class="block" id="magic"><h2>Magic</h2></section>
+    <section class="block" id="neon"><h2>Futuristic Digital Energy</h2></section>
+    <section class="block" id="gothic"><h2>Gothic</h2></section>
+    <section class="block" id="dragons"><h2>Dragons • Fantasy</h2></section>
+    <section class="block" id="city"><h2>City • Cyberpunk</h2></section>
 
   </main>
 
   <footer>© 2025 Galina Vas | Prompt Gallery</footer>
 
   <script>
-    // init prompt on load
+    const galleryData = {
+      magic: [
+        "images/magic-01.png",
+        "images/magic-02.png",
+        "images/magic-03.png",
+        "images/magic-04.png",
+        "images/magic-05.png",
+      ],
+      neon: [
+        "images/neon-01.png",
+        "images/neon-02.png",
+        "images/neon-03.png",
+        "images/neon-04.png",
+        "images/neon-05.png",
+      ],
+      gothic: [
+        "images/gothic-01.png",
+        "images/gothic-02.png",
+        "images/gothic-03.png",
+        "images/gothic-04.png",
+        "images/gothic-05.png",
+      ],
+      dragons: [
+        "images/dragons-01.png",
+        "images/dragons-02.png",
+        "images/dragons-03.png",
+        "images/dragons-04.png",
+        "images/dragons-05.png",
+      ],
+      city: [
+        "images/city-01.png",
+        "images/city-02.png",
+        "images/city-03.png",
+        "images/city-04.png",
+        "images/city-05.png",
+      ],
+    };
+
+    const prompts = {
+      magic: [
+`A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5`,
+`Two playful fairy friends dancing on glowing mushrooms, high-detail 3D animation, gentle bokeh background, storybook composition, heartwarming mood —ar 4:5 —v 5`,
+`A cozy treehouse village with lanterns and floating boats, magical 3D scene, painterly textures —ar 16:9 —v 5`,
+`A wise elf elder teaching children spells under ancient oaks, cinematic 3D animation, warm rim lighting, storybook framing —ar 3:4 —v 5`,
+`A glowing crystal waterfall where tiny sprites play, fantasy 3D illustration, soft shadows, high material detail, magical atmosphere, warm golden and turquoise lighting, soft sunset glow, Pixar-style color palette —ar 5:4 —v 5`
+      ],
+      neon: [
+`A futuristic AI energy core floating in a dark void, surrounded by glowing neon rings, electric sparks and holographic data streams, ultra-realistic 3D render, vibrant magenta and cyan lighting, cinematic composition, volumetric light beams —ar 16:9 —v 5`,
+`Abstract neon portrait of artificial intelligence — half human, half machine face built from glass circuits and light, surreal futuristic art, ultra-detail, glowing reflections, studio lighting —ar 4:5 —v 5`,
+`Exploding digital universe made of data particles, glowing shards and geometric shapes, bright energy burst, synthwave neon colors, dynamic motion —ar 21:9 —v 5`,
+`Futuristic holographic interface floating in space, glowing icons and control panels, deep purple and cyan palette, 3D render, cinematic perspective —ar 16:9 —v 5`,
+`An AI brain made of fractal light, surrounded by pulsating neon waves, abstract cosmic energy field, ultra-detailed, high contrast digital artwork, vibrant glow —ar 3:2 —v 5`
+      ],
+      gothic: [
+`A rain-soaked cobblestone street under gaslight, towering gothic cathedral, ultra-realistic photo, deep shadows, dramatic volumetric fog —ar 3:2 —v 5`,
+`A lone figure in crimson cloak on a ruined balcony, cinematic HDR photo style, high detail, moody sky —ar 2:3 —v 5`,
+`A towering gothic cathedral at dusk, dramatic clouds and fog swirling around the spires, cinematic photography, ultra-realistic lighting, wet cobblestone reflections, high contrast chiaroscuro mood —ar 4:5 —v 5`,
+`An abandoned gothic hall illuminated by moonlight through stained glass windows, drifting mist across the floor, cinematic ultra-realistic photograph, deep contrast, cold blue tones with subtle candlelight glow, rich architectural detail —ar 16:9 —v 5`,
+`A gothic bridge at night shrouded in fog, lanterns casting golden reflections on wet stone, dramatic cinematic lighting, ultra-realistic photography, moody atmosphere, intricate architecture, faint silhouettes in the distance —ar 3:2 —v 5`
+      ],
+      dragons: [
+`A majestic dragon perched on a cliff overlooking a fantasy valley, painterly high-detail illustration, dramatic light, scale texture —ar 16:9 —v 5`,
+`A baby dragon curled around a glowing crystal in a dark cave, bioluminescent reflections on scales, cinematic fantasy lighting, ultra-detailed textures, misty background, painterly high-realism illustration —ar 4:5 —v 5`,
+`Dragon and child sharing a quiet moment by a campfire, evocative fantasy scene, cinematic color grading —ar 3:2 —v 5`,
+`A pack of wyvern-like creatures racing through storm clouds, dynamic composition, high-detail fantasy art —ar 21:9 —v 5`,
+`A dragon egg hatching in an ancient nest among glowing runes, mystical atmosphere, highly detailed —ar 1:1 —v 5`
+      ],
+      city: [
+`Neon-drenched megacity at night, rain-slick streets, towering holograms, cinematic wide shot, gritty realism —ar 21:9 —v 5`,
+`Rooftop chase between androids with neon signage, dynamic motion, cinematic lighting —ar 16:9 —v 5`,
+`A bustling street market with augmented-reality stalls and colorful signage, cinematic photo-real render, rich detail —ar 4:5 —v 5`,
+`Close-up portrait of a cyborg with neon facial tattoos, hyper-detailed, cinematic studio lighting —ar 2:3 —v 5`,
+`A monorail gliding through layers of neon skyscrapers, aerial cinematic shot, high detail —ar 3:2 —v 5`
+      ]
+    };
+
+    Object.keys(galleryData).forEach(id => {
+      const section = document.getElementById(id);
+      const images = galleryData[id];
+      const html = `
+        <div class="slider" data-block="${id}">
+          <div class="slides">
+            ${images.map(src => `<img src="${src}" alt="">`).join("")}
+          </div>
+          <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
+          <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
+        </div>
+        <div class="controls">
+          <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
+          <button class="action" onclick="copyPrompt(this)">Скопировать</button>
+        </div>
+        <div class="prompt-text"></div>
+      `;
+      section.insertAdjacentHTML("beforeend", html);
+    });
+
     document.addEventListener("DOMContentLoaded", () => {
-      const block = document.querySelector(".block");
-      if (!block) return;
-      const slider = block.querySelector(".slider");
-      slider.dataset.index = 0;
-      updatePrompt(slider, 0);
+      document.querySelectorAll(".slider").forEach(slider => {
+        slider.dataset.index = 0;
+        updatePrompt(slider, 0);
+      });
     });
 
     function nextSlide(btn){
@@ -211,15 +283,9 @@ A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-fr
     }
     function updatePrompt(slider, index){
       const block = slider.closest(".block");
+      const id = slider.dataset.block;
       const promptBox = block.querySelector(".prompt-text");
-      const prompts = [
-`A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5`,
-`Two playful fairy friends dancing on glowing mushrooms, high-detail 3D animation, gentle bokeh background, storybook composition, heartwarming mood —ar 4:5 —v 5`,
-`A cozy treehouse village with lanterns and floating boats, magical 3D scene, painterly textures —ar 16:9 —v 5`,
-`A wise elf elder teaching children spells under ancient oaks, cinematic 3D animation, warm rim lighting, storybook framing —ar 3:4 —v 5`,
-`A glowing crystal waterfall where tiny sprites play, fantasy 3D illustration, soft shadows, high material detail, magical atmosphere, warm golden and turquoise lighting, soft sunset glow, Pixar-style color palette —ar 5:4 —v 5`
-      ];
-      promptBox.textContent = prompts[index];
+      promptBox.textContent = prompts[id][index];
     }
     function togglePrompt(btn){
       const box = btn.closest(".block").querySelector(".prompt-text");
