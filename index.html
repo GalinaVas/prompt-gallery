@@ -1,155 +1,68 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Promptorum</title>
 <style>
 *{box-sizing:border-box;scroll-behavior:smooth}
 body{
-  margin:0;
-  font-family:"Segoe UI",system-ui,sans-serif;
-  color:#fff;
+  margin:0;font-family:"Segoe UI",system-ui,sans-serif;color:#fff;
   background:url("images/background.png") center/cover fixed no-repeat;
   background-color:#02020a;
 }
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  pointer-events:none;
-}
+body::before{content:"";position:fixed;inset:0;background:rgba(0,0,0,0.35);pointer-events:none}
 
-/* Шапка */
-.title{
-  text-align:center;
-  padding:80px 20px 40px;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(6px);
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:15px;
-}
-.title img{
-  height:3cm; width:auto;
-  filter:drop-shadow(0 0 12px #00e0ff);
-}
-.title h1{
-  font-size:3.2em; margin:0;
-  color:#00e0ff;
-  text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff,0 0 60px #7df9ff,0 0 80px #7df9ff;
-  animation:pulse 3s infinite alternate ease-in-out; letter-spacing:2px;
-}
-@keyframes pulse{
-  from{ text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff }
-  to{   text-shadow:0 0 25px #7df9ff,0 0 80px #00e0ff,0 0 120px #7df9ff }
-}
-.spark{position:absolute;width:6px;height:6px;background:radial-gradient(circle,#fff 0%,#00e0ff 60%,transparent 100%);border-radius:50%;opacity:.8;animation:sparkle 5s linear infinite}
-@keyframes sparkle{from{transform:translateY(0)scale(1);opacity:.9}to{transform:translateY(-300px)scale(0);opacity:0}}
+/* Заголовок */
+.title{display:flex;justify-content:center;align-items:center;gap:15px;text-align:center;padding:80px 20px 40px;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px)}
+.title img{height:3cm;width:auto;filter:drop-shadow(0 0 12px #00e0ff)}
+.title h1{font-size:3.5em;color:#00e0ff;text-shadow:0 0 15px #00e0ff,0 0 40px #7df9ff;animation:pulse 3s infinite alternate ease-in-out;letter-spacing:2px;margin:0}
+@keyframes pulse{from{text-shadow:0 0 15px #00e0ff,0 0 30px #00e0ff}to{text-shadow:0 0 25px #7df9ff,0 0 80px #00e0ff,0 0 120px #7df9ff}}
 
 /* Навигация */
-nav{
-  position:sticky; top:0; z-index:10;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(6px);
-  padding:15px 0;
-  display:flex; justify-content:center; flex-wrap:wrap; gap:25px;
-}
-nav a, .random-nav-btn{
-  color:#7df9ff; text-decoration:none; font-weight:600; cursor:pointer;
-  transition:color .3s, text-shadow .3s;
-}
-nav a:hover, .random-nav-btn:hover{ color:#fff; text-shadow:0 0 10px #00e0ff }
+nav{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);padding:15px 0;display:flex;justify-content:center;flex-wrap:wrap;gap:25px}
+nav a,.random-nav-btn{color:#7df9ff;text-decoration:none;font-weight:600;cursor:pointer;transition:color .3s,text-shadow .3s}
+nav a:hover,.random-nav-btn:hover{color:#fff;text-shadow:0 0 10px #00e0ff}
 
-/* Блоки галереи */
-.container{ max-width:900px; margin:0 auto; padding:40px 20px 80px }
-.block{
-  background:rgba(0,0,0,.65);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 0 25px rgba(0,255,255,.15);
-  margin-bottom:60px;
-  backdrop-filter:blur(6px);
-}
-.block h2{
-  text-align:center; font-size:1.6em; margin-bottom:20px;
-  color:#7df9ff; text-shadow:0 0 10px #00e0ff;
-}
-.slider{ position:relative; overflow:hidden; border-radius:12px }
-.slides{ display:flex; transition:transform .5s ease }
-.slides img{ width:100%; border-radius:12px; flex-shrink:0; display:block }
-.nav-btn{
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,.55); border:none; color:#7df9ff; font-size:1.5em;
-  cursor:pointer; padding:8px 14px; border-radius:8px; box-shadow:0 0 10px #00e0ff; transition:all .2s;
-}
-.nav-btn:hover{ background:#00e0ff; color:#000; box-shadow:0 0 20px #00e0ff }
-.nav-prev{ left:10px } .nav-next{ right:10px }
+/* Блоки */
+.container{max-width:900px;margin:0 auto;padding:40px 20px 80px}
+.block{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:25px;box-shadow:0 0 25px rgba(0,255,255,.15);margin-bottom:60px;backdrop-filter:blur(6px)}
+.block h2{text-align:center;font-size:1.6em;margin-bottom:20px;color:#7df9ff;text-shadow:0 0 10px #00e0ff}
+.slider{position:relative;overflow:hidden;border-radius:12px}
+.slides{display:flex;transition:transform .5s ease}
+.slides img{width:100%;border-radius:12px;flex-shrink:0;display:block}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.55);border:none;color:#7df9ff;font-size:1.5em;cursor:pointer;padding:8px 14px;border-radius:8px;box-shadow:0 0 10px #00e0ff;transition:all .2s}
+.nav-btn:hover{background:#00e0ff;color:#000;box-shadow:0 0 20px #00e0ff}
+.nav-prev{left:10px}.nav-next{right:10px}
+.controls{display:flex;justify-content:center;gap:15px;margin-top:15px}
+button.action{cursor:pointer;border:none;background:#00e0ff;color:#000;font-weight:700;padding:8px 18px;border-radius:8px;transition:all .25s;text-transform:uppercase;letter-spacing:.02em;font-size:.85em;box-shadow:0 0 10px #00e0ff}
+button.action:hover{background:#7df9ff;box-shadow:0 0 20px #00e0ff,0 0 40px #00e0ff}
+.prompt-text{display:none;margin-top:15px;font-size:.9em;background:rgba(255,255,255,.08);border-radius:8px;padding:12px;white-space:pre-wrap}
 
-.controls{ display:flex; justify-content:center; gap:15px; margin-top:15px }
-button.action{
-  cursor:pointer; border:none; background:#00e0ff; color:#000; font-weight:700;
-  padding:8px 18px; border-radius:8px; transition:all .25s; text-transform:uppercase; letter-spacing:.02em; font-size:.85em;
-  box-shadow:0 0 10px #00e0ff;
-}
-button.action:hover{ background:#7df9ff; box-shadow:0 0 20px #00e0ff, 0 0 40px #00e0ff }
+/* Дверь как шестой блок */
+.door-container{position:relative;display:inline-block;perspective:1000px}
+.door-glow{position:absolute;inset:0;border-radius:10px;box-shadow:0 0 25px #00e0ff,0 0 50px #7df9ff,0 0 80px #00e0ff;opacity:0;transition:opacity .5s ease}
+.door-container:hover .door-glow{opacity:1}
+.door-container img{width:100%;border-radius:12px;cursor:pointer;transition:transform .4s ease,box-shadow .4s ease;transform-origin:left center}
+.door-container img:hover{transform:scale(1.05);box-shadow:0 0 40px #00e0ff}
 
-.prompt-text{
-  display:none; margin-top:15px; font-size:.9em;
-  background:rgba(255,255,255,.08); border-radius:8px; padding:12px; white-space:pre-wrap;
-}
-
-/* Дверь-портал */
-.door-section{ text-align:center; margin-top:100px }
-.door-container{ position:relative; display:inline-block; perspective:1000px }
-.door-glow{
-  position:absolute; inset:0; border-radius:10px;
-  box-shadow:0 0 25px #00e0ff, 0 0 50px #7df9ff, 0 0 80px #00e0ff;
-  opacity:0; transition:opacity .5s ease;
-}
-.door-container:hover .door-glow{ opacity:1 }
-.door-container img{
-  width:220px; border-radius:10px; cursor:pointer;
-  transition:transform .35s ease, box-shadow .35s ease;
-  transform-origin:left center;
-}
-.door-container img:hover{ transform:scale(1.06); box-shadow:0 0 40px #00e0ff }
-
-/* Модалка */
-.modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); justify-content:center; align-items:center; z-index:100 }
-.modal-content{
-  background:rgba(0,0,0,.7);
-  border:1px solid rgba(0,255,255,.4);
-  border-radius:15px; padding:20px; max-width:600px; width:90%;
-  text-align:center; box-shadow:0 0 25px #00e0ff;
-}
-.modal-content img{ width:100%; border-radius:10px; margin-bottom:15px }
-.close-btn{
-  background:#00e0ff; color:#000; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:700; transition:all .2s;
-}
-.close-btn:hover{ background:#7df9ff; box-shadow:0 0 15px #00e0ff }
-
-/* Футер */
-footer{ text-align:center; color:#aaa; padding:40px 0; background:rgba(0,0,0,0.6); font-size:.9em }
+/* Модал */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);justify-content:center;align-items:center;z-index:100}
+.modal-content{background:rgba(0,0,0,.7);border:1px solid rgba(0,255,255,.4);border-radius:15px;padding:20px;max-width:600px;width:90%;text-align:center;box-shadow:0 0 25px #00e0ff}
+.modal-content img{width:100%;border-radius:10px;margin-bottom:15px}
+.modal-buttons{display:flex;justify-content:center;gap:10px}
+.close-btn{background:#00e0ff;color:#000;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;transition:all .2s}
+.close-btn:hover{background:#7df9ff;box-shadow:0 0 15px #00e0ff}
+footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);font-size:.9em}
 </style>
 </head>
 <body>
 
-<!-- Шапка -->
 <div class="title">
   <img src="images/эмблема.png" alt="Логотип">
   <h1>Promptorum</h1>
-  <div class="spark" style="left:15%;animation-delay:0s"></div>
-  <div class="spark" style="left:45%;animation-delay:1s"></div>
-  <div class="spark" style="left:75%;animation-delay:2s"></div>
 </div>
 
-<!-- Навигация -->
 <nav>
   <a href="#magic">Magic</a>
   <a href="#neon">Futuristic Digital Energy</a>
@@ -159,145 +72,119 @@ footer{ text-align:center; color:#aaa; padding:40px 0; background:rgba(0,0,0,0.6
   <a href="#door-section" class="random-nav-btn">Random Prompt</a>
 </nav>
 
-<!-- Галерея -->
 <main class="container" id="gallery-container"></main>
 
-<!-- Дверь-портал -->
-<section class="door-section" id="door-section">
-  <h2 style="color:#7df9ff;text-shadow:0 0 10px #00e0ff;">Portal of Random Prompts</h2>
+<!-- Портал как шестой блок -->
+<section class="block" id="door-section" style="text-align:center;">
+  <h2>Portal of Random Prompts</h2>
   <div class="door-container" onclick="openDoor()">
     <div class="door-glow"></div>
     <img id="magic-door" src="images/door.png" alt="Magic Door">
   </div>
+  <p style="color:#7df9ff;margin-top:15px;">Click the door to reveal a random prompt ✨</p>
 </section>
 
-<!-- Футер -->
 <footer>
   <hr style="border-color:rgba(255,255,255,0.1);width:80%;margin-bottom:20px">
   <p>Promptorum © 2025 Galina Vas</p>
 </footer>
 
-<!-- Модалка -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <img src="" alt="random image">
     <p id="modal-text"></p>
-    <button class="close-btn" onclick="closeModal()">Закрыть</button>
+    <div class="modal-buttons">
+      <button class="close-btn" onclick="closeModal()">Закрыть</button>
+      <button class="close-btn" onclick="copyRandomPrompt()">Скопировать промпт</button>
+    </div>
   </div>
 </div>
 
 <script>
-/* ===== ОСНОВНЫЕ ДАННЫЕ (твоя галерея) ===== */
+/* ===== Основные данные ===== */
 const data = {
-  magic: {
-    title: "Magic",
-    images: ["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],
-    prompts: [
-`A charming young elf wizard in a sunlit enchanted forest, cinematic 3D family-friendly animation, warm color palette, soft volumetric lighting, large expressive eyes, whimsical props, high detail —ar 2:3 —v 5`,
-`Two playful fairy friends dancing on glowing mushrooms, high-detail 3D animation, gentle bokeh background, storybook composition, heartwarming mood —ar 4:5 —v 5`,
-`A cozy treehouse village with lanterns and floating boats, magical 3D scene, painterly textures —ar 16:9 —v 5`,
-`A wise elf elder teaching children spells under ancient oaks, cinematic 3D animation, warm rim lighting, storybook framing —ar 3:4 —v 5`,
-`A glowing crystal waterfall where tiny sprites play, fantasy 3D illustration, soft shadows, high material detail, magical atmosphere, warm golden and turquoise lighting, soft sunset glow, Pixar-style color palette —ar 5:4 —v 5`
-    ]
-  },
-  neon: {
-    title: "Futuristic Digital Energy",
-    images: ["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],
-    prompts: [
-`A futuristic AI energy core floating in a dark void, surrounded by glowing neon rings, electric sparks and holographic data streams, ultra-realistic 3D render, vibrant magenta and cyan lighting, cinematic composition, volumetric light beams —ar 16:9 —v 5`,
-`Abstract neon portrait of artificial intelligence — half human, half machine face built from glass circuits and light, surreal futuristic art, ultra-detail, glowing reflections, studio lighting —ar 4:5 —v 5`,
-`Exploding digital universe made of data particles, glowing shards and geometric shapes, bright energy burst, synthwave neon colors, dynamic motion —ar 21:9 —v 5`,
-`Futuristic holographic interface floating in space, glowing icons and control panels, deep purple and cyan palette, 3D render, cinematic perspective —ar 16:9 —v 5`,
-`An AI brain made of fractal light, surrounded by pulsating neon waves, abstract cosmic energy field, ultra-detailed, high contrast digital artwork, vibrant glow —ar 3:2 —v 5`
-    ]
-  },
-  gothic: {
-    title: "Gothic",
-    images: ["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],
-    prompts: [
-`A rain-soaked cobblestone street under gaslight, towering gothic cathedral, ultra-realistic photo, deep shadows, dramatic volumetric fog —ar 3:2 —v 5`,
-`A lone figure in crimson cloak on a ruined balcony, cinematic HDR photo style, high detail, moody sky —ar 2:3 —v 5`,
-`A towering gothic cathedral at dusk, dramatic clouds and fog swirling around the spires, cinematic photography, ultra-realistic lighting, wet cobblestone reflections, high contrast chiaroscuro mood —ar 4:5 —v 5`,
-`An abandoned gothic hall illuminated by moonlight through stained glass windows, drifting mist across the floor, cinematic ultra-realistic photograph, deep contrast, cold blue tones with subtle candlelight glow, rich architectural detail —ar 16:9 —v 5`,
-`A gothic bridge at night shrouded in fog, lanterns casting golden reflections on wet stone, dramatic cinematic lighting, ultra-realistic photography, moody atmosphere, intricate architecture, faint silhouettes in the distance —ar 3:2 —v 5`
-    ]
-  },
-  dragons: {
-    title: "Dragons • Fantasy",
-    images: ["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],
-    prompts: [
-`A majestic dragon perched on a cliff overlooking a fantasy valley, painterly high-detail illustration, dramatic light, scale texture —ar 16:9 —v 5`,
-`A baby dragon curled around a glowing crystal in a dark cave, bioluminescent reflections on scales, cinematic fantasy lighting, ultra-detailed textures, misty background, painterly high-realism illustration —ar 4:5 —v 5`,
-`Dragon and child sharing a quiet moment by a campfire, evocative fantasy scene, cinematic color grading —ar 3:2 —v 5`,
-`A pack of wyvern-like creatures racing through storm clouds, dynamic composition, high-detail fantasy art —ar 21:9 —v 5`,
-`A dragon egg hatching in an ancient nest among glowing runes, mystical atmosphere, highly detailed —ar 1:1 —v 5`
-    ]
-  },
-  city: {
-    title: "City • Cyberpunk",
-    images: ["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],
-    prompts: [
-`Neon-drenched megacity at night, rain-slick streets, towering holograms, cinematic wide shot, gritty realism —ar 21:9 —v 5`,
-`Rooftop chase between androids with neon signage, dynamic motion, cinematic lighting —ar 16:9 —v 5`,
-`A bustling street market with augmented-reality stalls and colorful signage, cinematic photo-real render, rich detail —ar 4:5 —v 5`,
-`Close-up portrait of a cyborg with neon facial tattoos, hyper-detailed, cinematic studio lighting —ar 2:3 —v 5`,
-`A monorail gliding through layers of neon skyscrapers, aerial cinematic shot, high detail —ar 3:2 —v 5`
-    ]
-  }
+  magic:{title:"Magic",images:["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],prompts:[
+"A charming young elf wizard in a sunlit enchanted forest...",
+"Two playful fairy friends dancing on glowing mushrooms...",
+"A cozy treehouse village with lanterns and floating boats...",
+"A wise elf elder teaching children spells under ancient oaks...",
+"A glowing crystal waterfall where tiny sprites play..."
+]},
+  neon:{title:"Futuristic Digital Energy",images:["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],prompts:[
+"A futuristic AI energy core floating in a dark void...",
+"Abstract neon portrait of artificial intelligence...",
+"Exploding digital universe made of data particles...",
+"Futuristic holographic interface floating in space...",
+"An AI brain made of fractal light..."
+]},
+  gothic:{title:"Gothic",images:["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],prompts:[
+"A rain-soaked cobblestone street under gaslight...",
+"A lone figure in crimson cloak on a ruined balcony...",
+"A towering gothic cathedral at dusk...",
+"An abandoned gothic hall illuminated by moonlight...",
+"A gothic bridge at night shrouded in fog..."
+]},
+  dragons:{title:"Dragons • Fantasy",images:["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],prompts:[
+"A majestic dragon perched on a cliff...",
+"A baby dragon curled around a glowing crystal...",
+"Dragon and child sharing a quiet moment by a campfire...",
+"A pack of wyvern-like creatures racing through storm clouds...",
+"A dragon egg hatching in an ancient nest..."
+]},
+  city:{title:"City • Cyberpunk",images:["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],prompts:[
+"Neon-drenched megacity at night...",
+"Rooftop chase between androids with neon signage...",
+"A bustling street market with augmented-reality stalls...",
+"Close-up portrait of a cyborg with neon facial tattoos...",
+"A monorail gliding through layers of neon skyscrapers..."
+]}
 };
 
-/* Построение галереи */
-const main = document.getElementById("gallery-container");
-Object.entries(data).forEach(([id, section])=>{
-  const html = `
-    <section class="block" id="${id}">
-      <h2>${section.title}</h2>
-      <div class="slider" data-block="${id}">
-        <div class="slides">
-          ${section.images.map(src=>`<img src="images/${src}" alt="">`).join("")}
-        </div>
-        <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
-        <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
+const main=document.getElementById("gallery-container");
+Object.entries(data).forEach(([id,section])=>{
+  const html=`
+  <section class="block" id="${id}">
+    <h2>${section.title}</h2>
+    <div class="slider" data-block="${id}">
+      <div class="slides">
+        ${section.images.map(src=>`<img src="images/${src}" alt="">`).join("")}
       </div>
-      <div class="controls">
-        <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
-        <button class="action" onclick="copyPrompt(this)">Скопировать</button>
-      </div>
-      <div class="prompt-text">${section.prompts[0]}</div>
-    </section>`;
-  main.insertAdjacentHTML("beforeend", html);
+      <button class="nav-btn nav-prev" onclick="prevSlide(this)">❮</button>
+      <button class="nav-btn nav-next" onclick="nextSlide(this)">❯</button>
+    </div>
+    <div class="controls">
+      <button class="action" onclick="togglePrompt(this)">Показать промпт</button>
+      <button class="action" onclick="copyPrompt(this)">Скопировать</button>
+    </div>
+    <div class="prompt-text">${section.prompts[0]}</div>
+  </section>`;
+  main.insertAdjacentHTML("beforeend",html);
 });
 
-/* Логика слайдера/промптов */
+/* ===== Галерея ===== */
 function nextSlide(btn){
-  const slider=btn.closest(".slider");
-  const block=slider.dataset.block;
-  const slides=slider.querySelector(".slides");
-  const imgs=slides.querySelectorAll("img");
-  const promptBox=slider.closest(".block").querySelector(".prompt-text");
-  let index=parseInt(slider.dataset.index||0);
-  index=(index+1)%imgs.length;
-  slides.style.transform=`translateX(-${index*100}%)`;
-  slider.dataset.index=index;
-  promptBox.textContent=data[block].prompts[index];
+  const s=btn.closest(".slider"),b=s.dataset.block;
+  const slides=s.querySelector(".slides"),imgs=slides.querySelectorAll("img");
+  const p=s.closest(".block").querySelector(".prompt-text");
+  let i=parseInt(s.dataset.index||0);
+  i=(i+1)%imgs.length;
+  slides.style.transform=`translateX(-${i*100}%)`;
+  s.dataset.index=i;p.textContent=data[b].prompts[i];
 }
 function prevSlide(btn){
-  const slider=btn.closest(".slider");
-  const block=slider.dataset.block;
-  const slides=slider.querySelector(".slides");
-  const imgs=slides.querySelectorAll("img");
-  const promptBox=slider.closest(".block").querySelector(".prompt-text");
-  let index=parseInt(slider.dataset.index||0);
-  index=(index-1+imgs.length)%imgs.length;
-  slides.style.transform=`translateX(-${index*100}%)`;
-  slider.dataset.index=index;
-  promptBox.textContent=data[block].prompts[index];
+  const s=btn.closest(".slider"),b=s.dataset.block;
+  const slides=s.querySelector(".slides"),imgs=slides.querySelectorAll("img");
+  const p=s.closest(".block").querySelector(".prompt-text");
+  let i=parseInt(s.dataset.index||0);
+  i=(i-1+imgs.length)%imgs.length;
+  slides.style.transform=`translateX(-${i*100}%)`;
+  s.dataset.index=i;p.textContent=data[b].prompts[i];
 }
 function togglePrompt(btn){
   const box=btn.closest(".block").querySelector(".prompt-text");
-  const visible=box.style.display==="block";
-  box.style.display=visible?"none":"block";
-  btn.textContent=visible?"Показать промпт":"Скрыть промпт";
+  const v=box.style.display==="block";
+  box.style.display=v?"none":"block";
+  btn.textContent=v?"Показать промпт":"Скрыть промпт";
 }
 function copyPrompt(btn){
   const text=btn.closest(".block").querySelector(".prompt-text").textContent;
@@ -306,19 +193,21 @@ function copyPrompt(btn){
   setTimeout(()=>btn.textContent="Скопировать",1500);
 }
 
-/* ===== ДВЕРНОЙ ПОРТАЛ (рандомные изображения + промпты) ===== */
-const randomData = [
-  {img:"random/nature.png",  text:"A giant ancient oak with glowing runes carved into its bark, surrounded by floating green lights and misty forest air, cinematic wide shot, painterly realism, warm ambient light —ar 16:9 —v 5"},
-  {img:"random/dream.png",   text:"A woman walking through a sky made of shattered mirrors, reflecting alternate realities, hyperrealism mixed with surreal oil painting texture, dreamlike atmosphere —ar 4:5 —v 5"},
-  {img:"random/ocean.png",   text:"A colossal jellyfish drifting through an underwater city of glass domes, bioluminescent glow, deep sea blues and violets, detailed sci-fi underwater concept art —ar 21:9 —v 5"},
-  {img:"random/retro.png",   text:"A massive computer cathedral from the 1980s, glowing CRT screens forming stained glass windows, neon cables like vines, vaporwave color palette —ar 3:2 —v 5"},
-  {img:"random/cityscape.png",text:"Airships floating above a brass and copper metropolis, gears turning on rooftops, orange sunset haze, cinematic steampunk illustration, high detail —ar 16:9 —v 5"},
-  {img:"random/garden.png",  text:"A crystal greenhouse suspended in the clouds, filled with glowing plants and floating butterflies made of light, pastel color palette, dreamlike fantasy art —ar 4:5 —v 5"},
-  {img:"random/time.png",    text:"A lonely figure standing before a spiraling rift in spacetime, fragments of different eras floating around, golden light and cosmic dust, surreal cinematic scene —ar 3:2 —v 5"},
-  {img:"random/carnival.png",text:"A ghostly carnival at twilight, floating masks, glowing lanterns, misty background, cinematic color grading, eerie yet whimsical mood —ar 5:4 —v 5"},
-  {img:"random/library.png", text:"A massive floating library in space, shelves made of starlight, books orbiting like planets, deep indigo and silver palette, detailed 3D render —ar 16:9 —v 5"},
-  {img:"random/machine.png", text:"A living biomechanical heart pulsing with fractal energy, surrounded by translucent tendrils of light, surreal blend of nature and technology —ar 3:2 —v 5"}
+/* ===== Портал ===== */
+const randomData=[
+  {img:"random/nature.png",text:"A giant ancient oak with glowing runes..."},
+  {img:"random/dream.png",text:"A woman walking through a sky made of shattered mirrors..."},
+  {img:"random/ocean.png",text:"A colossal jellyfish drifting through an underwater city..."},
+  {img:"random/retro.png",text:"A massive computer cathedral from the 1980s..."},
+  {img:"random/cityscape.png",text:"Airships floating above a brass and copper metropolis..."},
+  {img:"random/garden.png",text:"A crystal greenhouse suspended in the clouds..."},
+  {img:"random/time.png",text:"A lonely figure standing before a spiraling rift in spacetime..."},
+  {img:"random/carnival.png",text:"A ghostly carnival at twilight..."},
+  {img:"random/library.png",text:"A massive floating library in space..."},
+  {img:"random/machine.png",text:"A living biomechanical heart pulsing with fractal energy..."}
 ];
+
+let currentPrompt="";
 
 function openDoor(){
   const door=document.getElementById("magic-door");
@@ -327,17 +216,23 @@ function openDoor(){
   setTimeout(()=>{
     showRandom();
     door.style.transform="rotateY(0deg)";
-  }, 600);
+  },600);
 }
-
 function showRandom(){
   const item=randomData[Math.floor(Math.random()*randomData.length)];
+  currentPrompt=item.text;
   const modal=document.getElementById("modal");
   modal.querySelector("img").src=item.img;
   modal.querySelector("#modal-text").textContent=item.text;
   modal.style.display="flex";
 }
-function closeModal(){ document.getElementById("modal").style.display="none"; }
+function closeModal(){document.getElementById("modal").style.display="none";}
+function copyRandomPrompt(){
+  if(currentPrompt){
+    navigator.clipboard.writeText(currentPrompt.trim());
+    alert("Промпт скопирован!");
+  }
+}
 </script>
 </body>
 </html>
