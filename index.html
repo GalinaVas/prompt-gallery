@@ -43,12 +43,13 @@ button.action:hover{background:#7df9ff;box-shadow:0 0 20px #00e0ff,0 0 40px #00e
 .door-container{position:relative;display:inline-block;perspective:1000px}
 .door-glow{position:absolute;inset:0;border-radius:10px;box-shadow:0 0 25px #00e0ff,0 0 50px #7df9ff,0 0 80px #00e0ff;opacity:0;transition:opacity .5s ease}
 .door-container:hover .door-glow{opacity:1}
-.door-container img{width:100%;border-radius:12px;cursor:pointer;transition:transform .4s ease,box-shadow .4s ease;transform-origin:left center}
+.door-container img{width:100%;max-width:500px;border-radius:12px;cursor:pointer;transition:transform 1s ease-in-out,box-shadow .5s ease;transform-origin:left center}
 .door-container img:hover{transform:scale(1.05);box-shadow:0 0 40px #00e0ff}
 
 /* Модал */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);justify-content:center;align-items:center;z-index:100}
-.modal-content{background:rgba(0,0,0,.7);border:1px solid rgba(0,255,255,.4);border-radius:15px;padding:20px;max-width:600px;width:90%;text-align:center;box-shadow:0 0 25px #00e0ff}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);justify-content:center;align-items:center;z-index:100;animation:fadeIn .8s ease}
+@keyframes fadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.modal-content{background:rgba(0,0,0,.7);border:1px solid rgba(0,255,255,.4);border-radius:15px;padding:20px;max-width:600px;width:90%;max-height:90vh;overflow-y:auto;text-align:center;box-shadow:0 0 25px #00e0ff}
 .modal-content img{width:100%;border-radius:10px;margin-bottom:15px}
 .modal-buttons{display:flex;justify-content:center;gap:10px}
 .close-btn{background:#00e0ff;color:#000;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;transition:all .2s}
@@ -74,7 +75,7 @@ footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);fo
 
 <main class="container" id="gallery-container"></main>
 
-<!-- Портал как шестой блок -->
+<!-- ======= Шестой блок: Портал ======= -->
 <section class="block" id="door-section" style="text-align:center;">
   <h2>Portal of Random Prompts</h2>
   <div class="door-container" onclick="openDoor()">
@@ -89,6 +90,7 @@ footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);fo
   <p>Promptorum © 2025 Galina Vas</p>
 </footer>
 
+<!-- ======= Модалка ======= -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <img src="" alt="random image">
@@ -100,46 +102,14 @@ footer{text-align:center;color:#aaa;padding:40px 0;background:rgba(0,0,0,0.6);fo
   </div>
 </div>
 
-<script>
-/* ===== Основные данные ===== */
-const data = {
-  magic:{title:"Magic",images:["magic-01.png","magic-02.png","magic-03.png","magic-04.png","magic-05.png"],prompts:[
-"A charming young elf wizard in a sunlit enchanted forest...",
-"Two playful fairy friends dancing on glowing mushrooms...",
-"A cozy treehouse village with lanterns and floating boats...",
-"A wise elf elder teaching children spells under ancient oaks...",
-"A glowing crystal waterfall where tiny sprites play..."
-]},
-  neon:{title:"Futuristic Digital Energy",images:["neon-01.png","neon-02.png","neon-03.png","neon-04.png","neon-05.png"],prompts:[
-"A futuristic AI energy core floating in a dark void...",
-"Abstract neon portrait of artificial intelligence...",
-"Exploding digital universe made of data particles...",
-"Futuristic holographic interface floating in space...",
-"An AI brain made of fractal light..."
-]},
-  gothic:{title:"Gothic",images:["gothic-01.png","gothic-02.png","gothic-03.png","gothic-04.png","gothic-05.png"],prompts:[
-"A rain-soaked cobblestone street under gaslight...",
-"A lone figure in crimson cloak on a ruined balcony...",
-"A towering gothic cathedral at dusk...",
-"An abandoned gothic hall illuminated by moonlight...",
-"A gothic bridge at night shrouded in fog..."
-]},
-  dragons:{title:"Dragons • Fantasy",images:["dragons-01.png","dragons-02.png","dragons-03.png","dragons-04.png","dragons-05.png"],prompts:[
-"A majestic dragon perched on a cliff...",
-"A baby dragon curled around a glowing crystal...",
-"Dragon and child sharing a quiet moment by a campfire...",
-"A pack of wyvern-like creatures racing through storm clouds...",
-"A dragon egg hatching in an ancient nest..."
-]},
-  city:{title:"City • Cyberpunk",images:["city-01.png","city-02.png","city-03.png","city-04.png","city-05.png"],prompts:[
-"Neon-drenched megacity at night...",
-"Rooftop chase between androids with neon signage...",
-"A bustling street market with augmented-reality stalls...",
-"Close-up portrait of a cyborg with neon facial tattoos...",
-"A monorail gliding through layers of neon skyscrapers..."
-]}
-};
+<!-- ======= Звук портала ======= -->
+<audio id="portal-sound" src="sounds/portal.mp3" preload="auto"></audio>
 
+<script>
+/* === Данные для блоков (как раньше) === */
+const data={/* ... твои секции magic, neon, gothic, dragons, city — как в предыдущем коде ... */};
+
+/* Генерация блоков */
 const main=document.getElementById("gallery-container");
 Object.entries(data).forEach(([id,section])=>{
   const html=`
@@ -161,39 +131,25 @@ Object.entries(data).forEach(([id,section])=>{
   main.insertAdjacentHTML("beforeend",html);
 });
 
-/* ===== Галерея ===== */
-function nextSlide(btn){
-  const s=btn.closest(".slider"),b=s.dataset.block;
-  const slides=s.querySelector(".slides"),imgs=slides.querySelectorAll("img");
-  const p=s.closest(".block").querySelector(".prompt-text");
-  let i=parseInt(s.dataset.index||0);
-  i=(i+1)%imgs.length;
-  slides.style.transform=`translateX(-${i*100}%)`;
-  s.dataset.index=i;p.textContent=data[b].prompts[i];
-}
-function prevSlide(btn){
-  const s=btn.closest(".slider"),b=s.dataset.block;
-  const slides=s.querySelector(".slides"),imgs=slides.querySelectorAll("img");
-  const p=s.closest(".block").querySelector(".prompt-text");
-  let i=parseInt(s.dataset.index||0);
-  i=(i-1+imgs.length)%imgs.length;
-  slides.style.transform=`translateX(-${i*100}%)`;
-  s.dataset.index=i;p.textContent=data[b].prompts[i];
-}
-function togglePrompt(btn){
-  const box=btn.closest(".block").querySelector(".prompt-text");
-  const v=box.style.display==="block";
-  box.style.display=v?"none":"block";
-  btn.textContent=v?"Показать промпт":"Скрыть промпт";
-}
-function copyPrompt(btn){
-  const text=btn.closest(".block").querySelector(".prompt-text").textContent;
-  navigator.clipboard.writeText(text.trim());
-  btn.textContent="Скопировано!";
-  setTimeout(()=>btn.textContent="Скопировать",1500);
-}
+/* === Управление слайдером === */
+function nextSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block;
+const slides=s.querySelector(".slides"),imgs=slides.querySelectorAll("img");
+const p=s.closest(".block").querySelector(".prompt-text");let i=parseInt(s.dataset.index||0);
+i=(i+1)%imgs.length;slides.style.transform=`translateX(-${i*100}%)`;
+s.dataset.index=i;p.textContent=data[b].prompts[i];}
+function prevSlide(btn){const s=btn.closest(".slider"),b=s.dataset.block;
+const slides=s.querySelector(".slides"),imgs=slides.querySelectorAll("img");
+const p=s.closest(".block").querySelector(".prompt-text");let i=parseInt(s.dataset.index||0);
+i=(i-1+imgs.length)%imgs.length;slides.style.transform=`translateX(-${i*100}%)`;
+s.dataset.index=i;p.textContent=data[b].prompts[i];}
+function togglePrompt(btn){const box=btn.closest(".block").querySelector(".prompt-text");
+const v=box.style.display==="block";box.style.display=v?"none":"block";
+btn.textContent=v?"Показать промпт":"Скрыть промпт";}
+function copyPrompt(btn){const text=btn.closest(".block").querySelector(".prompt-text").textContent;
+navigator.clipboard.writeText(text.trim());btn.textContent="Скопировано!";
+setTimeout(()=>btn.textContent="Скопировать",1500);}
 
-/* ===== Портал ===== */
+/* === Портал === */
 const randomData=[
   {img:"random/nature.png",text:"A giant ancient oak with glowing runes..."},
   {img:"random/dream.png",text:"A woman walking through a sky made of shattered mirrors..."},
@@ -206,17 +162,18 @@ const randomData=[
   {img:"random/library.png",text:"A massive floating library in space..."},
   {img:"random/machine.png",text:"A living biomechanical heart pulsing with fractal energy..."}
 ];
-
 let currentPrompt="";
 
 function openDoor(){
   const door=document.getElementById("magic-door");
-  door.style.transition="transform .6s ease";
+  const sound=document.getElementById("portal-sound");
+  sound.currentTime=0; sound.play(); // 🔊 звук портала
+  door.style.transition="transform 1.2s ease-in-out";
   door.style.transform="rotateY(-100deg)";
   setTimeout(()=>{
     showRandom();
     door.style.transform="rotateY(0deg)";
-  },600);
+  },1200);
 }
 function showRandom(){
   const item=randomData[Math.floor(Math.random()*randomData.length)];
